@@ -1,0 +1,12 @@
+[
+  {
+    "kit_name": "Acoustic",
+    "sounds": ["closehat", "snare", "tom", "flam", "kick"],
+    "layers": {}
+  },
+  {
+    "kit_name": "Electro",
+    "sounds": ["closehat", "openhat", "clap", "snare", "tom", "kick"],
+    "layers": {}
+  }
+]
