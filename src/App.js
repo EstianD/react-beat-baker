@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
 import useSound from "use-sound";
 import "./App.css";
 import instrumentData from "./instrumentData.json";
@@ -26,13 +27,22 @@ function App() {
   const [instrumentInput, setInstrumentInput] = useState("");
 
   const [beatBlocks, setBeatBlocks] = useState(8);
-  const [beatsPerMin, setBeatsPerMinute] = useState(200);
+  const [beatsPerMin, setBeatsPerMinute] = useState(100);
+
+  // State to manage spring style for timer
+  const [timerStyle, setTimerStyle] = useState({});
+
+  const [styleState] = useState(timerStyle);
+
+  // For spring
+  const [toggle, setToggle] = useState(true);
 
   let playTrackLoop;
-
   let testLoop;
-
   const BPMms = 60000;
+
+  // Spring example
+  const styleProps = useSpring(timerStyle);
 
   const [acoustic, stopAcoustic] = useSound(acousticSound, {
     sprite: {
@@ -59,50 +69,82 @@ function App() {
 
   // UseEffect on state change of 'playing'
   useEffect(() => {
+    console.log(
+      "------------------------------------------------------------------------------------"
+    );
     let loop = 0;
     let indexSound;
     let noteObj = {};
-
-    console.log("LOOP: ", loop);
-    console.log("BEATBLOCKS: ", beatBlocks);
 
     playTrackLoop = null;
 
     if (playing) {
       playTrackLoop = setInterval(() => {
         // Loop through sounds
-        console.log("played");
         noteObj = {};
         if (loop < beatBlocks) {
-          console.log("HELLO!!!!!!");
+          console.log(loop);
+          if (loop === 0) {
+            console.log("First: ", Date.now());
+            setTimerStyle({
+              from: { width: "0%", backgroundColor: "blue" },
+              to: { width: "100%", backgroundColor: "blue" },
+              config: { duration: (BPMms / beatsPerMin) * beatBlocks },
+            });
+          }
+
           state[0].sounds.map((sound) => {
             indexSound = state[0].layers[sound][loop];
-            console.log("INDEXSOUND: ", indexSound);
+
             if (indexSound) {
               noteObj = {
                 id: indexSound,
               };
-              console.log(noteObj);
+              // console.log(noteObj);
+              console.log("SECOND: ", Date.now());
               acoustic(noteObj);
             }
           });
-          // console.log(loop);
-        } else {
-          loop = 0;
-          state[0].sounds.map((sound) => {
-            indexSound = state[0].layers[sound][loop];
-            console.log(indexSound);
-          });
-          // console.log(loop);
         }
 
+        // else {
+        //   loop = 0;
+        //   state[0].sounds.map((sound) => {
+        //     indexSound = state[0].layers[sound][loop];
+        //     // console.log(indexSound);
+        //   });
+        //   console.log("HIERSO");
+        // setTimerStyle({
+        //   from: { width: "100%", backgroundColor: "blue" }, //HIERRRRRRRRRRRRRRRRRRRRRRRRRR
+        //   to: { width: "0%", backgroundColor: "blue" },
+        //   config: { duration: 0 },
+        // });
+        // }
+
         loop++;
-        if (loop === beatBlocks - 1) {
+
+        console.log("LOOP: ", loop);
+        console.log("BEAT: ", beatBlocks);
+
+        if (loop === beatBlocks) {
+          console.log("DIt is hier");
+          // console.log(loop);
+          // console.log("HIERRRRRRRRRRRRRRRRRRRRRRRRRRRR");
           loop = 0;
+
+          setTimerStyle({
+            from: { width: "100%", backgroundColor: "blue" }, //HIERRRRRRRRRRRRRRRRRRRRRRRRRR
+            to: { width: "0%", backgroundColor: "blue" },
+            config: { duration: 0 },
+          });
         }
+        // loop++;
       }, BPMms / beatsPerMin);
     }
-    return () => clearInterval(playTrackLoop);
+    return () => {
+      clearInterval(playTrackLoop);
+      setTimerStyle({});
+    };
     // stop();
   }, [playing]);
 
@@ -191,6 +233,7 @@ function App() {
   // Handle Play button clicked
   const playHandler = () => {
     setPlaying(!playing);
+
     // play();
     // if (!playing) {
     //   // setPlaying(!playing);
@@ -211,6 +254,11 @@ function App() {
   // Handle Pause button clicked
   const stopHandler = () => {
     setPlaying(!playing);
+    setTimerStyle({
+      from: { width: "0%", backgroundColor: "blue" },
+      to: { width: "0%", backgroundColor: "blue" },
+      config: { duration: 50 },
+    });
     // stop();
     // play();
   };
@@ -260,12 +308,9 @@ function App() {
               state={state}
               setState={setState}
               handleUpdateTrack={handleUpdateTrack}
+              styleProps={styleProps}
+              playing={playing}
             />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div className="low-box">hello</div>
           </Col>
         </Row>
       </Container>
