@@ -14,6 +14,7 @@ import SelectInstrument from "./Components/Header/SelectInstrument";
 import AddInstrument from "./Components/Header/AddInstrument";
 import PlayButton from "./Components/Header/PlayButton";
 import StopButton from "./Components/Header/StopButton";
+import SelectBPM from "./Components/Header/SelectBPM";
 
 import acousticSound from "../src/Sounds/Acoustic/acoustic_full.mp3";
 
@@ -26,7 +27,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [instrumentInput, setInstrumentInput] = useState("");
 
-  const [beatBlocks, setBeatBlocks] = useState(8);
+  const [beatBlocks, setBeatBlocks] = useState(16);
   const [beatsPerMin, setBeatsPerMinute] = useState(100);
 
   // State to manage spring style for timer
@@ -40,6 +41,7 @@ function App() {
   let playTrackLoop;
   let testLoop;
   const BPMms = 60000;
+  let playingNote;
 
   // Spring example
   const styleProps = useSpring(timerStyle);
@@ -75,35 +77,52 @@ function App() {
     let loop = 0;
     let indexSound;
     let noteObj = {};
+    let timeElement;
 
     playTrackLoop = null;
 
     if (playing) {
       playTrackLoop = setInterval(() => {
-        // Loop through sounds
+        // for (let block = 1; block <= beatBlocks; block++) {
+        //   // console.log(block);
+        //   timeElement = document.getElementById(`beatblock-${block}`);
+        //   if (timeElement) {
+        //     console.log(timeElement);
+        //     timeElement.classList.remove("played-time");
+        //   }
+        // }
+
         noteObj = {};
         if (loop < beatBlocks) {
-          console.log(loop);
-          if (loop === 0) {
-            console.log("First: ", Date.now());
-            setTimerStyle({
-              from: { width: "0%", backgroundColor: "blue" },
-              to: { width: "100%", backgroundColor: "blue" },
-              config: { duration: (BPMms / beatsPerMin) * beatBlocks },
-            });
+          // console.log("LOOP1: ", loop);
+          if (loop == 0) {
+            for (let block = 1; block <= beatBlocks; block++) {
+              // console.log(block);
+              timeElement = document.getElementById(`beatblock-${block}`);
+              if (timeElement) {
+                console.log(timeElement);
+                timeElement.classList.remove("played-time");
+              }
+            }
           }
 
           state[0].sounds.map((sound) => {
             indexSound = state[0].layers[sound][loop];
+            // console.log("SOUND: ", sound);
+            console.log("LOOP2: ", loop);
 
             if (indexSound) {
               noteObj = {
                 id: indexSound,
               };
-              // console.log(noteObj);
-              console.log("SECOND: ", Date.now());
+
+              // ADD PLAYING NOTe
+              // document.getElementById();
               acoustic(noteObj);
             }
+            document
+              .getElementById(`beatblock-${loop + 1}`)
+              .classList.add("played-time");
           });
         }
 
@@ -123,20 +142,22 @@ function App() {
 
         loop++;
 
-        console.log("LOOP: ", loop);
-        console.log("BEAT: ", beatBlocks);
+        // console.log("LOOP3: ", loop);
+        // console.log("BEAT: ", beatBlocks);
 
         if (loop === beatBlocks) {
           console.log("DIt is hier");
-          // console.log(loop);
-          // console.log("HIERRRRRRRRRRRRRRRRRRRRRRRRRRRR");
-          loop = 0;
 
-          setTimerStyle({
-            from: { width: "100%", backgroundColor: "blue" }, //HIERRRRRRRRRRRRRRRRRRRRRRRRRR
-            to: { width: "0%", backgroundColor: "blue" },
-            config: { duration: 0 },
-          });
+          // for (let block = 1; block <= beatBlocks; block++) {
+          //   // console.log(block);
+          //   timeElement = document.getElementById(`beatblock-${block}`);
+          //   if (timeElement) {
+          //     console.log(timeElement);
+          //     timeElement.classList.remove("played-time");
+          //   }
+          // }
+
+          loop = 0;
         }
         // loop++;
       }, BPMms / beatsPerMin);
@@ -226,29 +247,30 @@ function App() {
   };
 
   // Handler for updating state after track is clicked
-  const handleUpdateTrack = (index, sound) => {
+  const handleAddTrack = (index, sound) => {
     setState(state, (state[0].layers[sound][index] = sound));
+  };
+
+  const handleRemoveTrack = (index, sound) => {
+    setState(state, (state[0].layers[sound][index] = 0));
+  };
+
+  const handleBPMChange = (e) => {
+    if (e.target.value >= 60 || e.target.value <= 250) {
+      setBeatsPerMinute(e.target.value);
+    }
+
+    console.log(e.target);
   };
 
   // Handle Play button clicked
   const playHandler = () => {
+    if (beatsPerMin < 60) {
+      setBeatsPerMinute(60);
+    } else if (beatsPerMin > 300) {
+      setBeatsPerMinute(300);
+    }
     setPlaying(!playing);
-
-    // play();
-    // if (!playing) {
-    //   // setPlaying(!playing);
-    //   setPlaying((state) => !state);
-    //   console.log(playing);
-    //   play();
-    //   // console.log(playing);
-    //   // playTrackLoop = setInterval(playTrack, 1000);
-    // } else if (playing) {
-    //   console.log(playing);
-    //   // clearInterval(playTrackLoop);
-    //   // stopAcoustic();
-    //   // setPlaying(!playing);
-    //   setPlaying((state) => !state);
-    // }
   };
 
   // Handle Pause button clicked
@@ -259,15 +281,30 @@ function App() {
       to: { width: "0%", backgroundColor: "blue" },
       config: { duration: 50 },
     });
-    // stop();
-    // play();
   };
 
   const renderPlayStop = () => {
-    if (playing && selectedInstrument) {
+    if (
+      playing &&
+      selectedInstrument &&
+      beatsPerMin > 59 &&
+      beatsPerMin < 301
+    ) {
       return <StopButton stopHandler={stopHandler} />;
     } else if (!playing && selectedInstrument) {
       return <PlayButton playHandler={playHandler} />;
+    }
+  };
+
+  const renderBPM = () => {
+    if (!playing) {
+      return (
+        <SelectBPM
+          beatsPerMin={beatsPerMin}
+          handleBPMChange={handleBPMChange}
+          playing={playing}
+        />
+      );
     }
   };
 
@@ -289,7 +326,13 @@ function App() {
           </Col>
         </Row>
         <Row>
-          <Col xs={5}></Col>
+          <Col xs={5}>
+            <SelectBPM
+              beatsPerMin={beatsPerMin}
+              handleBPMChange={handleBPMChange}
+              playing={playing}
+            />
+          </Col>
           <Col className="text-center">
             {renderPlayStop()}
 
@@ -307,7 +350,8 @@ function App() {
               beatBlocks={beatBlocks}
               state={state}
               setState={setState}
-              handleUpdateTrack={handleUpdateTrack}
+              handleAddTrack={handleAddTrack}
+              handleRemoveTrack={handleRemoveTrack}
               styleProps={styleProps}
               playing={playing}
             />

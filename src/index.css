@@ -59,3 +59,15 @@ code {
   position: absolute;
   width: 0;
 }
+
+.played-note {
+  background-color: blueviolet;
+}
+
+.played-time {
+  background-color: orange;
+}
+
+.bpm-error {
+  color: red;
+}
