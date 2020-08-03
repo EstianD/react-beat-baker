@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 
-import Dropdown from "react-dropdown";
+import { Form } from "react-bootstrap";
+
 import "react-dropdown/style.css";
 
 function SelectBPM({ beatsPerMin, handleBPMChange, playing }) {

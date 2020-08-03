@@ -15,6 +15,7 @@ import AddInstrument from "./Components/Header/AddInstrument";
 import PlayButton from "./Components/Header/PlayButton";
 import StopButton from "./Components/Header/StopButton";
 import SelectBPM from "./Components/Header/SelectBPM";
+import SelectBeatBlocks from "./Components/Header/SelectBeatBlocks";
 
 import acousticSound from "../src/Sounds/Acoustic/acoustic_full.mp3";
 
@@ -27,7 +28,7 @@ function App() {
   const [playing, setPlaying] = useState(false);
   const [instrumentInput, setInstrumentInput] = useState("");
 
-  const [beatBlocks, setBeatBlocks] = useState(16);
+  const [beatBlocks, setBeatBlocks] = useState(8);
   const [beatsPerMin, setBeatsPerMinute] = useState(100);
 
   // State to manage spring style for timer
@@ -42,6 +43,7 @@ function App() {
   let testLoop;
   const BPMms = 60000;
   let playingNote;
+  const beatBlockOptions = ["8", "16"];
 
   // Spring example
   const styleProps = useSpring(timerStyle);
@@ -224,15 +226,16 @@ function App() {
 
   const handleInstrumentChange = (e) => {
     // setselectedInstrument(e.value);
+    console.log(e.value);
     setInstrumentInput(e.value);
   };
 
   const handleInstrumentAdd = () => {
     setselectedInstrument(instrumentInput);
-    // console.log(selectedInstrument);
+    console.log("here:", selectedInstrument);
     const instrumentConfig = instrumentData.filter((name) => {
-      // console.log(name.kit_name);
-      return name.kit_name.includes(selectedInstrument);
+      console.log(name.kit_name.includes(selectedInstrument));
+      return name.kit_name.includes(instrumentInput);
       // name.kit_name.includes(selectedInstrument);
     });
 
@@ -261,6 +264,12 @@ function App() {
     }
 
     console.log(e.target);
+  };
+
+  // Handle BeatBlock change
+  const handleBeatBlockChange = (e) => {
+    console.log(e.value);
+    setBeatBlocks(parseInt(e.value));
   };
 
   // Handle Play button clicked
@@ -312,7 +321,7 @@ function App() {
     <div>
       <Container fluid>
         <Row>
-          <Col>
+          <Col xs={5}>
             <SelectInstrument
               instrumentData={instrumentData}
               handleInstrumentChange={handleInstrumentChange}
@@ -321,8 +330,18 @@ function App() {
               setInstruments={setInstruments}
             />
           </Col>
-          <Col>
+          <Col xs={2}>
             <AddInstrument handleInstrumentAdd={handleInstrumentAdd} />
+          </Col>
+          <Col xs={2}></Col>
+          <Col xs={3}>
+            <SelectBeatBlocks
+              playing={playing}
+              beatBlocks={beatBlocks}
+              handleBeatBlockChange={handleBeatBlockChange}
+              beatBlockOptions={beatBlockOptions}
+              state={state}
+            />
           </Col>
         </Row>
         <Row>
@@ -342,7 +361,7 @@ function App() {
               <PlayButton playHandler={playHandler} />
             )} */}
           </Col>
-          <Col xs={5}></Col>
+          <Col xs={3}></Col>
         </Row>
         <Row>
           <Col>

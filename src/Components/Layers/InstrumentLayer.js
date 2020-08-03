@@ -17,12 +17,6 @@ function InstrumentLayer({
   styleProps,
   playing,
 }) {
-  const props = useSpring({
-    width: playing ? 100 : 0,
-    backgroundColor: playing ? "blue" : "red",
-    config: { duration: 3000 },
-  });
-
   let stateExist = Object.keys(state).length !== 0;
 
   const data = {
@@ -93,9 +87,9 @@ function InstrumentLayer({
           <Row>
             <Col xs={2}></Col>
             <Col xs={10} className="timing-bar">
-              <animated.div xs={12} className="timing-bar" style={styleProps}>
+              <div xs={12} className="timing-bar" style={styleProps}>
                 &nbsp;
-              </animated.div>
+              </div>
             </Col>
           </Row>
           <Row className="trackHeader">
