@@ -9,8 +9,10 @@ function SelectBeatBlocks({
   state,
 }) {
   console.log("BEATBLOCKS: ", beatBlocks);
+  console.log("STATE: ", state);
 
   let selectedIndex = parseInt(beatBlockOptions.indexOf(beatBlocks.toString()));
+  let stateExist = Object.keys(state).length !== 0;
   console.log(state);
 
   //   const selectBeatBlockHandle = () => {
@@ -18,12 +20,12 @@ function SelectBeatBlocks({
   //   };
   return (
     <div>
-      {/* <label>Beat Blocks:</label> */}
+      <label>Beat Blocks:</label>
       <Dropdown
         options={beatBlockOptions}
         onChange={(e) => handleBeatBlockChange(e)}
         value={beatBlockOptions[selectedIndex]}
-        disabled={state ? "disabled" : ""}
+        disabled={stateExist ? "disabled" : ""}
       />
     </div>
   );

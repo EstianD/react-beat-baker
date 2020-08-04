@@ -13,6 +13,7 @@ function SelectInstrument({
 
   return (
     <div>
+      <label>Instruments:</label>
       <Dropdown
         options={instruments}
         onChange={(e) => handleInstrumentChange(e)}

@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 
-import { Form } from "react-bootstrap";
+import { Form, InputGroup, FormControl, Row, Col } from "react-bootstrap";
 
 import "react-dropdown/style.css";
 
@@ -12,13 +12,30 @@ function SelectBPM({ beatsPerMin, handleBPMChange, playing }) {
   };
   return (
     <div>
-      <label>BPM:</label>
+      <Row className="">
+        <Col xs={2}>
+          <p>BPM:</p>
+        </Col>
+        <Col xs={10}>
+          <Form.Group controlId="BPMSelector">
+            <Form.Control
+              className="bpm-container"
+              type="number"
+              value={beatsPerMin}
+              onChange={handleBPMChange}
+              disabled={playing ? "disabled" : ""}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
+      {/* <label>BPM:</label>
+      <br />
       <input
         type="number"
         value={beatsPerMin}
         onChange={handleBPMChange}
         disabled={playing ? "disabled" : ""}
-      />
+      /> */}
       {renderError()}
     </div>
   );

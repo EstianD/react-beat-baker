@@ -47,6 +47,14 @@ code {
   text-align: center;
 }
 
+.track-config {
+  text-align: center;
+}
+
+.track-config-btn {
+  margin-left: 10px;
+}
+
 .trackRow {
 }
 
@@ -60,6 +68,14 @@ code {
   width: 0;
 }
 
+.btn_instrument-add {
+  margin-top: 10px;
+}
+
+.bpm-container {
+  align-items: center;
+}
+
 .played-note {
   background-color: blueviolet;
 }
@@ -69,5 +85,9 @@ code {
 }
 
 .bpm-error {
+  color: red;
+}
+
+.save-input-error {
   color: red;
 }

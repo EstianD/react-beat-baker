@@ -6,7 +6,7 @@ import instrumentData from "./instrumentData.json";
 
 // Import useInterval Hook
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Modal } from "react-bootstrap";
 
 // Components
 import InstrumentLayer from "./Components/Layers/InstrumentLayer";
@@ -16,6 +16,8 @@ import PlayButton from "./Components/Header/PlayButton";
 import StopButton from "./Components/Header/StopButton";
 import SelectBPM from "./Components/Header/SelectBPM";
 import SelectBeatBlocks from "./Components/Header/SelectBeatBlocks";
+import VolumeSlider from "./Components/Header/VolumeSlider";
+import SavedLibrary from "./Components/Header/SavedLibrary";
 
 import acousticSound from "../src/Sounds/Acoustic/acoustic_full.mp3";
 
@@ -30,11 +32,18 @@ function App() {
 
   const [beatBlocks, setBeatBlocks] = useState(8);
   const [beatsPerMin, setBeatsPerMinute] = useState(100);
+  const [trackVolume, setTrackVolume] = useState(1);
+
+  // State for save input
+  const [saveInput, setSaveInput] = useState("");
+  const [saveInputError, setSaveInputError] = useState("");
 
   // State to manage spring style for timer
   const [timerStyle, setTimerStyle] = useState({});
 
   const [styleState] = useState(timerStyle);
+
+  // Modal states
 
   // For spring
   const [toggle, setToggle] = useState(true);
@@ -57,7 +66,10 @@ function App() {
       flam: [1700, 300],
     },
     interupt: false,
+    volume: trackVolume,
   });
+
+  let stateExist = Object.keys(state).length !== 0;
 
   // UseEffect on Load
   useEffect(() => {
@@ -85,21 +97,10 @@ function App() {
 
     if (playing) {
       playTrackLoop = setInterval(() => {
-        // for (let block = 1; block <= beatBlocks; block++) {
-        //   // console.log(block);
-        //   timeElement = document.getElementById(`beatblock-${block}`);
-        //   if (timeElement) {
-        //     console.log(timeElement);
-        //     timeElement.classList.remove("played-time");
-        //   }
-        // }
-
         noteObj = {};
         if (loop < beatBlocks) {
-          // console.log("LOOP1: ", loop);
           if (loop == 0) {
             for (let block = 1; block <= beatBlocks; block++) {
-              // console.log(block);
               timeElement = document.getElementById(`beatblock-${block}`);
               if (timeElement) {
                 console.log(timeElement);
@@ -108,18 +109,18 @@ function App() {
             }
           }
 
-          state[0].sounds.map((sound) => {
-            indexSound = state[0].layers[sound][loop];
-            // console.log("SOUND: ", sound);
+          state.sounds.map((sound) => {
+            indexSound = state.layers[sound][loop];
+
             console.log("LOOP2: ", loop);
 
             if (indexSound) {
               noteObj = {
                 id: indexSound,
+                volume: 0.25,
               };
 
-              // ADD PLAYING NOTe
-              // document.getElementById();
+              // ADD PLAYING NOTE
               acoustic(noteObj);
             }
             document
@@ -128,37 +129,9 @@ function App() {
           });
         }
 
-        // else {
-        //   loop = 0;
-        //   state[0].sounds.map((sound) => {
-        //     indexSound = state[0].layers[sound][loop];
-        //     // console.log(indexSound);
-        //   });
-        //   console.log("HIERSO");
-        // setTimerStyle({
-        //   from: { width: "100%", backgroundColor: "blue" }, //HIERRRRRRRRRRRRRRRRRRRRRRRRRR
-        //   to: { width: "0%", backgroundColor: "blue" },
-        //   config: { duration: 0 },
-        // });
-        // }
-
         loop++;
 
-        // console.log("LOOP3: ", loop);
-        // console.log("BEAT: ", beatBlocks);
-
         if (loop === beatBlocks) {
-          console.log("DIt is hier");
-
-          // for (let block = 1; block <= beatBlocks; block++) {
-          //   // console.log(block);
-          //   timeElement = document.getElementById(`beatblock-${block}`);
-          //   if (timeElement) {
-          //     console.log(timeElement);
-          //     timeElement.classList.remove("played-time");
-          //   }
-          // }
-
           loop = 0;
         }
         // loop++;
@@ -168,56 +141,7 @@ function App() {
       clearInterval(playTrackLoop);
       setTimerStyle({});
     };
-    // stop();
   }, [playing]);
-
-  // Start to play track
-  // function play() {
-  //   let loop = 0;
-  //   let indexSound;
-  //   let noteObj = {};
-
-  //   if (playing) {
-  //     playTrackLoop = setInterval(() => {
-  //       // Loop through sounds
-  //       console.log("played");
-  //       noteObj = {};
-  //       if (loop < beatBlocks) {
-  //         state[0].sounds.map((sound) => {
-  //           indexSound = state[0].layers[sound][loop];
-  //           if (indexSound) {
-  //             noteObj = {
-  //               id: indexSound,
-  //             };
-  //             // console.log(noteObj);
-  //             acoustic(noteObj);
-  //           }
-  //         });
-  //         // console.log(loop);
-  //       } else {
-  //         loop = 0;
-  //         state[0].sounds.map((sound) => {
-  //           indexSound = state[0].layers[sound][loop];
-  //           console.log(indexSound);
-  //         });
-  //         // console.log(loop);
-  //       }
-
-  //       loop++;
-  //       if (loop === beatBlocks - 1) {
-  //         setBeatBlocks(0);
-  //       }
-
-  //       if (!playing) {
-  //         // clearInterval(playTrackLoop);
-  //       }
-  //     }, BPMms / beatsPerMin);
-  //   }
-
-  //   return () => clearInterval(playTrackLoop);
-
-  //   console.log(playTrackLoop);
-  // }
 
   // Stop playing
   const stop = () => {
@@ -246,16 +170,18 @@ function App() {
       });
     }
 
-    setState(instrumentConfig);
+    // console.log("STATE: ", instrumentConfig[0]);
+
+    setState(instrumentConfig[0]);
   };
 
   // Handler for updating state after track is clicked
   const handleAddTrack = (index, sound) => {
-    setState(state, (state[0].layers[sound][index] = sound));
+    setState(state, (state.layers[sound][index] = sound));
   };
 
   const handleRemoveTrack = (index, sound) => {
-    setState(state, (state[0].layers[sound][index] = 0));
+    setState(state, (state.layers[sound][index] = 0));
   };
 
   const handleBPMChange = (e) => {
@@ -292,6 +218,64 @@ function App() {
     });
   };
 
+  // SAVING TRACK FUNCTIONALITY
+  // Handle input change on save input
+  const handleSaveChange = (e) => {
+    console.log(e.target.value);
+    setSaveInput(e.target.value);
+
+    if (Object.keys(localStorage).includes(e.target.value)) {
+      setSaveInputError(
+        "Track name already exists! Saving will overwrite existing track."
+      );
+    } else {
+      setSaveInputError("");
+    }
+  };
+
+  // Handler for saving a track
+  const handleSaveTrack = () => {
+    console.log("saving");
+
+    localStorage.setItem(saveInput, JSON.stringify(state));
+    // console.log(Object.keys(localStorage));
+  };
+
+  // Handler for saving a track
+  const handleDeleteTrack = () => {
+    console.log("deleting");
+    console.log(JSON.parse(localStorage.getItem("testing2")));
+  };
+
+  // const handleVolumeChange = (e) => {
+  //   console.log(e.target.value);
+  //   setTrackVolume(e.target.value);
+  // };
+
+  const renderInstrumentLayer = () => {
+    return (
+      <InstrumentLayer
+        beatBlocks={beatBlocks}
+        state={state}
+        setState={setState}
+        handleAddTrack={handleAddTrack}
+        handleRemoveTrack={handleRemoveTrack}
+        styleProps={styleProps}
+        playing={playing}
+        handleSaveTrack={handleSaveTrack}
+        handleDeleteTrack={handleDeleteTrack}
+        handleSaveChange={handleSaveChange}
+        saveInputError={saveInputError}
+      />
+    );
+  };
+
+  const renderSavedLibrary = () => {
+    if (!stateExist) {
+      return <SavedLibrary />;
+    }
+  };
+
   const renderPlayStop = () => {
     if (
       playing &&
@@ -306,7 +290,7 @@ function App() {
   };
 
   const renderBPM = () => {
-    if (!playing) {
+    if (selectedInstrument && !playing) {
       return (
         <SelectBPM
           beatsPerMin={beatsPerMin}
@@ -317,64 +301,75 @@ function App() {
     }
   };
 
+  const renderAddInstrument = () => {
+    if (instrumentInput && !stateExist) {
+      return <AddInstrument handleInstrumentAdd={handleInstrumentAdd} />;
+    }
+  };
+
+  const renderInstrumentSelect = () => {
+    if (!stateExist) {
+      return (
+        <SelectInstrument
+          instrumentData={instrumentData}
+          handleInstrumentChange={handleInstrumentChange}
+          selectedInstrument={selectedInstrument}
+          instruments={instruments}
+          setInstruments={setInstruments}
+        />
+      );
+    }
+  };
+
+  const renderBeatBlockSelect = () => {
+    if (!stateExist) {
+      return (
+        <SelectBeatBlocks
+          playing={playing}
+          beatBlocks={beatBlocks}
+          handleBeatBlockChange={handleBeatBlockChange}
+          beatBlockOptions={beatBlockOptions}
+          state={state}
+        />
+      );
+    }
+  };
+
+  const renderVolumeSlider = () => {
+    if (selectedInstrument && !playing) {
+      return (
+        <VolumeSlider
+          trackVolume={trackVolume}
+          setTrackVolume={setTrackVolume}
+        />
+      );
+    }
+  };
+
   return (
     <div>
       <Container fluid>
         <Row>
-          <Col xs={5}>
-            <SelectInstrument
-              instrumentData={instrumentData}
-              handleInstrumentChange={handleInstrumentChange}
-              selectedInstrument={selectedInstrument}
-              instruments={instruments}
-              setInstruments={setInstruments}
-            />
-          </Col>
-          <Col xs={2}>
-            <AddInstrument handleInstrumentAdd={handleInstrumentAdd} />
-          </Col>
+          <Col xs={3}>{renderInstrumentSelect()}</Col>
+          <Col xs={3}>{renderBeatBlockSelect()}</Col>
+          <Col xs={3}>{renderAddInstrument()}</Col>
+          <Col xs={2}>{renderSavedLibrary()}</Col>
+        </Row>
+        <Row>
           <Col xs={2}></Col>
-          <Col xs={3}>
-            <SelectBeatBlocks
-              playing={playing}
-              beatBlocks={beatBlocks}
-              handleBeatBlockChange={handleBeatBlockChange}
-              beatBlockOptions={beatBlockOptions}
-              state={state}
-            />
-          </Col>
+          <Col xs={10}></Col>
         </Row>
         <Row>
-          <Col xs={5}>
-            <SelectBPM
-              beatsPerMin={beatsPerMin}
-              handleBPMChange={handleBPMChange}
-              playing={playing}
-            />
-          </Col>
-          <Col className="text-center">
-            {renderPlayStop()}
+          <Col xs={5}>{renderBPM()}</Col>
 
-            {/* {playing && selectedInstrument ? (
-              <PauseButton pauseHandler={pauseHandler} />
-            ) : (
-              <PlayButton playHandler={playHandler} />
-            )} */}
+          <Col xs={2} className="text-center">
+            {renderPlayStop()}
           </Col>
-          <Col xs={3}></Col>
+          <Col xs={5}></Col>
         </Row>
+
         <Row>
-          <Col>
-            <InstrumentLayer
-              beatBlocks={beatBlocks}
-              state={state}
-              setState={setState}
-              handleAddTrack={handleAddTrack}
-              handleRemoveTrack={handleRemoveTrack}
-              styleProps={styleProps}
-              playing={playing}
-            />
-          </Col>
+          <Col>{renderInstrumentLayer()}</Col>
         </Row>
       </Container>
     </div>

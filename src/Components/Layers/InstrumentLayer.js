@@ -5,9 +5,22 @@ import useMeasure from "use-measure";
 import { makeStyles } from "@material-ui/core/styles";
 
 import Table from "react-bootstrap/Table";
-import { Container, Row, Col } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  InputGroup,
+  FormControl,
+  Image,
+  Button,
+} from "react-bootstrap";
 
 import Note from "./Note";
+import SaveTrackButton from "./SaveTrackButton";
+
+// Import save/delete images
+import deleteTrackImage from "../../Images/button_delete.png";
+import saveTrackImage from "../../Images/button_saveV2.svg";
 
 function InstrumentLayer({
   beatBlocks,
@@ -16,6 +29,10 @@ function InstrumentLayer({
   handleRemoveTrack,
   styleProps,
   playing,
+  handleSaveTrack,
+  handleDeleteTrack,
+  handleSaveChange,
+  saveInputError,
 }) {
   let stateExist = Object.keys(state).length !== 0;
 
@@ -84,16 +101,22 @@ function InstrumentLayer({
     if (stateExist) {
       return (
         <div>
-          <Row>
-            <Col xs={2}></Col>
-            <Col xs={10} className="timing-bar">
-              <div xs={12} className="timing-bar" style={styleProps}>
-                &nbsp;
-              </div>
-            </Col>
-          </Row>
           <Row className="trackHeader">
-            <Col xs={2}></Col>
+            <Col className="track-config" xs={2}>
+              <SaveTrackButton
+                handleSaveTrack={handleSaveTrack}
+                handleSaveChange={handleSaveChange}
+                saveInputError={saveInputError}
+              />
+              <Button
+                className="track-config-btn"
+                variant="outline-danger"
+                size="sm"
+                onClick={() => handleDeleteTrack()}
+              >
+                Delete
+              </Button>
+            </Col>
 
             {/* Loop through header columns */}
             <Col xs={10}>
@@ -101,13 +124,13 @@ function InstrumentLayer({
             </Col>
           </Row>
 
-          {state[0].sounds.map((sound) => {
+          {state.sounds.map((sound) => {
             return (
               <Row className="trackRow">
                 <Col xs={2} id={sound}>
                   {sound}
                 </Col>
-                {state[0].layers[sound].map((i, index) => {
+                {state.layers[sound].map((i, index) => {
                   instrumentId = `${sound}-${index}`;
 
                   return (
@@ -125,7 +148,7 @@ function InstrumentLayer({
         </div>
       );
     } else {
-      return <p className="text-center">(Please select a instrument)</p>;
+      return <p className="text-center">(Please select a instrument to add)</p>;
     }
   };
 
