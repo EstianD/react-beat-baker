@@ -17,6 +17,7 @@ import {
 
 import Note from "./Note";
 import SaveTrackButton from "./SaveTrackButton";
+import CloseTrackButton from "./CloseTrackButton";
 
 // Import save/delete images
 import deleteTrackImage from "../../Images/button_delete.png";
@@ -30,7 +31,7 @@ function InstrumentLayer({
   styleProps,
   playing,
   handleSaveTrack,
-  handleDeleteTrack,
+  handleCloseTrack,
   handleSaveChange,
   saveInputError,
 }) {
@@ -108,14 +109,15 @@ function InstrumentLayer({
                 handleSaveChange={handleSaveChange}
                 saveInputError={saveInputError}
               />
-              <Button
+              <CloseTrackButton handleCloseTrack={handleCloseTrack} />
+              {/* <Button
                 className="track-config-btn"
                 variant="outline-danger"
                 size="sm"
                 onClick={() => handleDeleteTrack()}
               >
                 Delete
-              </Button>
+              </Button> */}
             </Col>
 
             {/* Loop through header columns */}

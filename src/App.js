@@ -34,6 +34,9 @@ function App() {
   const [beatsPerMin, setBeatsPerMinute] = useState(100);
   const [trackVolume, setTrackVolume] = useState(1);
 
+  // LocalStorage state
+  const [storageState, setStorageState] = useState([]);
+
   // State for save input
   const [saveInput, setSaveInput] = useState("");
   const [saveInputError, setSaveInputError] = useState("");
@@ -75,6 +78,7 @@ function App() {
   useEffect(() => {
     // Temp Array for instruments before changing state
     let instrumentArr = [];
+    setStorageState(Object.keys(localStorage));
 
     // Set state for instrument dropdown
     instrumentData.map((i) => {
@@ -238,13 +242,30 @@ function App() {
     console.log("saving");
 
     localStorage.setItem(saveInput, JSON.stringify(state));
+
+    setStorageState(storageState.concat(saveInput));
     // console.log(Object.keys(localStorage));
   };
 
   // Handler for saving a track
-  const handleDeleteTrack = () => {
+  const handleCloseTrack = () => {
     console.log("deleting");
-    console.log(JSON.parse(localStorage.getItem("testing2")));
+    setState({});
+  };
+
+  // Delete saved track
+  const deleteSavedTrack = (track) => {
+    let trackName = track.target.id;
+    if (trackName) {
+      console.log(trackName);
+
+      // console.log("yes");
+      localStorage.removeItem(trackName);
+      setStorageState(storageState.filter((track) => track !== trackName));
+    }
+    // console.log(track.target.id);
+
+    // console.log(storageState)
   };
 
   // const handleVolumeChange = (e) => {
@@ -263,7 +284,7 @@ function App() {
         styleProps={styleProps}
         playing={playing}
         handleSaveTrack={handleSaveTrack}
-        handleDeleteTrack={handleDeleteTrack}
+        handleCloseTrack={handleCloseTrack}
         handleSaveChange={handleSaveChange}
         saveInputError={saveInputError}
       />
@@ -272,25 +293,33 @@ function App() {
 
   const renderSavedLibrary = () => {
     if (!stateExist) {
-      return <SavedLibrary />;
+      return (
+        <SavedLibrary
+          deleteSavedTrack={deleteSavedTrack}
+          storageState={storageState}
+          state={state}
+        />
+      );
     }
   };
 
   const renderPlayStop = () => {
-    if (
-      playing &&
-      selectedInstrument &&
-      beatsPerMin > 59 &&
-      beatsPerMin < 301
-    ) {
-      return <StopButton stopHandler={stopHandler} />;
-    } else if (!playing && selectedInstrument) {
-      return <PlayButton playHandler={playHandler} />;
+    if (stateExist) {
+      if (
+        playing &&
+        selectedInstrument &&
+        beatsPerMin > 59 &&
+        beatsPerMin < 301
+      ) {
+        return <StopButton stopHandler={stopHandler} />;
+      } else if (!playing && selectedInstrument) {
+        return <PlayButton playHandler={playHandler} />;
+      }
     }
   };
 
   const renderBPM = () => {
-    if (selectedInstrument && !playing) {
+    if (stateExist) {
       return (
         <SelectBPM
           beatsPerMin={beatsPerMin}
