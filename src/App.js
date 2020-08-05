@@ -102,9 +102,13 @@ function App() {
     if (playing) {
       playTrackLoop = setInterval(() => {
         noteObj = {};
-        if (loop < beatBlocks) {
+        if (loop < state.layers.closehat.length) {
           if (loop == 0) {
-            for (let block = 1; block <= beatBlocks; block++) {
+            for (
+              let block = 1;
+              block <= state.layers.closehat.length;
+              block++
+            ) {
               timeElement = document.getElementById(`beatblock-${block}`);
               if (timeElement) {
                 console.log(timeElement);
@@ -135,7 +139,7 @@ function App() {
 
         loop++;
 
-        if (loop === beatBlocks) {
+        if (loop === state.layers.closehat.length) {
           loop = 0;
         }
         // loop++;
@@ -263,9 +267,19 @@ function App() {
       localStorage.removeItem(trackName);
       setStorageState(storageState.filter((track) => track !== trackName));
     }
-    // console.log(track.target.id);
+  };
 
-    // console.log(storageState)
+  // Load saved track
+  const loadSavedTrack = (track) => {
+    let trackName = track.target.id;
+    if (trackName) {
+      console.log(trackName);
+      let savedState = JSON.parse(localStorage.getItem(trackName));
+
+      setState((prevState) => savedState);
+
+      console.log(JSON.parse(localStorage.getItem(trackName)));
+    }
   };
 
   // const handleVolumeChange = (e) => {
@@ -296,6 +310,7 @@ function App() {
       return (
         <SavedLibrary
           deleteSavedTrack={deleteSavedTrack}
+          loadSavedTrack={loadSavedTrack}
           storageState={storageState}
           state={state}
         />
@@ -312,7 +327,7 @@ function App() {
         beatsPerMin < 301
       ) {
         return <StopButton stopHandler={stopHandler} />;
-      } else if (!playing && selectedInstrument) {
+      } else if (!playing) {
         return <PlayButton playHandler={playHandler} />;
       }
     }

@@ -37,13 +37,6 @@ function InstrumentLayer({
 }) {
   let stateExist = Object.keys(state).length !== 0;
 
-  const data = {
-    kit_name: "Acoustic",
-    instrument_layers: 6,
-    sound_notes: Array(beatBlocks).fill(0),
-    sounds: ["closehat", "flam", "kick", "revhat", "snare", "tom"],
-  };
-
   let instrumentId = "";
 
   // On cell enter
@@ -90,16 +83,17 @@ function InstrumentLayer({
     // headerArray.push(<th></th>);
     // headerArray.push(<animate.div style={styleProps}>);PUSH ANIMATE DIV TO INDEX[1] AND CLOSE DIV AT LAST INDEX
 
-    for (let block = 1; block <= beatBlocks; block++) {
-      headerArray.push(
-        <Col className="headerCell" id={`beatblock-${block}`}>
-          {block}
-        </Col>
-      );
-    }
+    console.log(state);
 
     // Check if State is not empty, then render track
     if (stateExist) {
+      for (let block = 1; block <= state.layers.closehat.length; block++) {
+        headerArray.push(
+          <Col className="headerCell" id={`beatblock-${block}`}>
+            {block}
+          </Col>
+        );
+      }
       return (
         <div>
           <Row className="trackHeader">
@@ -110,14 +104,6 @@ function InstrumentLayer({
                 saveInputError={saveInputError}
               />
               <CloseTrackButton handleCloseTrack={handleCloseTrack} />
-              {/* <Button
-                className="track-config-btn"
-                variant="outline-danger"
-                size="sm"
-                onClick={() => handleDeleteTrack()}
-              >
-                Delete
-              </Button> */}
             </Col>
 
             {/* Loop through header columns */}
@@ -133,6 +119,9 @@ function InstrumentLayer({
                   {sound}
                 </Col>
                 {state.layers[sound].map((i, index) => {
+                  {
+                    /* console.log(i); */
+                  }
                   instrumentId = `${sound}-${index}`;
 
                   return (
@@ -141,6 +130,7 @@ function InstrumentLayer({
                       onCellEnterHandler={onCellEnterHandler}
                       onCellLeaveHandler={onCellLeaveHandler}
                       onCellClickHandler={onCellClickHandler}
+                      cellValue={i}
                     />
                   );
                 })}

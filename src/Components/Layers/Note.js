@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 
 const Note = ({
@@ -6,10 +6,17 @@ const Note = ({
   onCellEnterHandler,
   onCellLeaveHandler,
   onCellClickHandler,
+  cellValue,
 }) => {
+  const [classNames, setClassNames] = useState();
+
+  useEffect(() => {
+    setClassNames(cellValue === 0 ? "trackCell" : "trackCell active");
+  }, []);
+
   return (
     <Col
-      className="trackCell"
+      className={classNames}
       id={instrumentId}
       onMouseEnter={(e) => onCellEnterHandler(e)}
       onMouseLeave={(e) => onCellLeaveHandler(e)}

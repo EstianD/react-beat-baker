@@ -3,12 +3,21 @@ import { Row, Col } from "react-bootstrap";
 
 import SavedTrack from "./SavedTrack";
 
-const SavedLibrary = ({ deleteSavedTrack, storageState, state }) => {
+const SavedLibrary = ({
+  deleteSavedTrack,
+  loadSavedTrack,
+  storageState,
+  state,
+}) => {
   let savedTracks = [];
 
   storageState.map((savedTrack) => {
     savedTracks.push(
-      <SavedTrack track={savedTrack} deleteSavedTrack={deleteSavedTrack} />
+      <SavedTrack
+        track={savedTrack}
+        deleteSavedTrack={deleteSavedTrack}
+        loadSavedTrack={loadSavedTrack}
+      />
     );
   });
 
