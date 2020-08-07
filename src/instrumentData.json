@@ -1,7 +1,17 @@
 [
   {
     "kit_name": "Acoustic",
-    "sounds": ["closehat", "snare", "tom", "flam", "kick"],
+    "sounds": [
+      "Closehat",
+      "Snare",
+      "Rim",
+      "Flam",
+      "Kick",
+      "Splash",
+      "Tom1",
+      "Tom2",
+      "Tom3"
+    ],
     "layers": {}
   },
   {

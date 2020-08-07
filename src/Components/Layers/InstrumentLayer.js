@@ -4,7 +4,8 @@ import useMeasure from "use-measure";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import Table from "react-bootstrap/Table";
+import { AiOutlineSound } from "react-icons/ai";
+
 import {
   Container,
   Row,
@@ -34,6 +35,7 @@ function InstrumentLayer({
   handleCloseTrack,
   handleSaveChange,
   saveInputError,
+  handleSoundIcon,
 }) {
   let stateExist = Object.keys(state).length !== 0;
 
@@ -117,6 +119,12 @@ function InstrumentLayer({
               <Row className="trackRow">
                 <Col xs={2} id={sound}>
                   {sound}
+                  &nbsp;
+                  <AiOutlineSound
+                    className="sound-icon"
+                    onClick={(sound) => handleSoundIcon(sound)}
+                    id={sound}
+                  />
                 </Col>
                 {state.layers[sound].map((i, index) => {
                   {

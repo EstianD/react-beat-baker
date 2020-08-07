@@ -62,11 +62,15 @@ function App() {
 
   const [acoustic, stopAcoustic] = useSound(acousticSound, {
     sprite: {
-      closehat: [0, 300],
-      kick: [300, 250],
-      snare: [550, 250],
-      tom: [800, 900],
-      flam: [1700, 300],
+      Closehat: [0, 400],
+      Snare: [400, 400],
+      Kick: [800, 580],
+      Flam: [1395, 605],
+      Rim: [2100, 390],
+      Splash: [2500, 500],
+      Tom1: [3100, 900],
+      Tom2: [4250, 1150],
+      Tom3: [5500, 1450],
     },
     interupt: false,
     volume: trackVolume,
@@ -101,6 +105,7 @@ function App() {
 
     if (playing) {
       playTrackLoop = setInterval(() => {
+        console.log(playing);
         noteObj = {};
         if (loop < state.layers.closehat.length) {
           if (loop == 0) {
@@ -176,9 +181,12 @@ function App() {
       instrumentConfig[0].sounds.map((sound) => {
         instrumentConfig[0].layers[sound] = Array(beatBlocks).fill(0);
       });
+
+      // instrumentConfig[0].beatblocks = beatBlocks;
     }
 
-    // console.log("STATE: ", instrumentConfig[0]);
+    // console.log(beatBlocks);
+    // console.log(instrumentConfig);
 
     setState(instrumentConfig[0]);
   };
@@ -254,7 +262,13 @@ function App() {
   // Handler for saving a track
   const handleCloseTrack = () => {
     console.log("deleting");
+    setPlaying(false);
     setState({});
+  };
+
+  // Handle onClick for sound
+  const handleSoundIcon = (e) => {
+    console.log(e.target);
   };
 
   // Delete saved track
@@ -301,6 +315,7 @@ function App() {
         handleCloseTrack={handleCloseTrack}
         handleSaveChange={handleSaveChange}
         saveInputError={saveInputError}
+        handleSoundIcon={handleSoundIcon}
       />
     );
   };
@@ -320,12 +335,7 @@ function App() {
 
   const renderPlayStop = () => {
     if (stateExist) {
-      if (
-        playing &&
-        selectedInstrument &&
-        beatsPerMin > 59 &&
-        beatsPerMin < 301
-      ) {
+      if (playing && beatsPerMin > 59 && beatsPerMin < 301) {
         return <StopButton stopHandler={stopHandler} />;
       } else if (!playing) {
         return <PlayButton playHandler={playHandler} />;
