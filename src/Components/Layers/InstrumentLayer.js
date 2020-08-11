@@ -16,6 +16,7 @@ import {
   Button,
 } from "react-bootstrap";
 
+// Import components
 import Note from "./Note";
 import SaveTrackButton from "./SaveTrackButton";
 import CloseTrackButton from "./CloseTrackButton";
@@ -29,7 +30,6 @@ function InstrumentLayer({
   state,
   handleAddTrack,
   handleRemoveTrack,
-  styleProps,
   playing,
   handleSaveTrack,
   handleCloseTrack,
@@ -43,8 +43,7 @@ function InstrumentLayer({
 
   // On cell enter
   const onCellEnterHandler = (e) => {
-    // console.log(e.target);
-    // console.log(e.target.parentNode);
+    // Set classname of hovered cell
     if (e.target.className !== "active") {
       e.target.classList.add("instrument-hover");
     }
@@ -58,7 +57,6 @@ function InstrumentLayer({
 
   // On cell click
   const onCellClickHandler = (e) => {
-    console.log(e.target);
     let index;
     let sound;
     let indexArr;
@@ -67,6 +65,7 @@ function InstrumentLayer({
     sound = indexArr[0];
     index = parseInt(indexArr[1]);
 
+    // Set classname of active class
     if (e.target.classList.contains("active")) {
       e.target.classList.remove("active");
 
@@ -108,7 +107,6 @@ function InstrumentLayer({
               <CloseTrackButton handleCloseTrack={handleCloseTrack} />
             </Col>
 
-            {/* Loop through header columns */}
             <Col xs={10}>
               <Row className="timeHeader">{headerArray}</Row>
             </Col>
@@ -127,9 +125,6 @@ function InstrumentLayer({
                   />
                 </Col>
                 {state.layers[sound].map((i, index) => {
-                  {
-                    /* console.log(i); */
-                  }
                   instrumentId = `${sound}-${index}`;
 
                   return (

@@ -28,14 +28,7 @@ function SelectBPM({ beatsPerMin, handleBPMChange, playing }) {
           </Form.Group>
         </Col>
       </Row>
-      {/* <label>BPM:</label>
-      <br />
-      <input
-        type="number"
-        value={beatsPerMin}
-        onChange={handleBPMChange}
-        disabled={playing ? "disabled" : ""}
-      /> */}
+
       {renderError()}
     </div>
   );

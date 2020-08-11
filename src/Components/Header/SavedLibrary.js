@@ -11,6 +11,7 @@ const SavedLibrary = ({
 }) => {
   let savedTracks = [];
 
+  // Loop through saved tracks
   storageState.map((savedTrack) => {
     savedTracks.push(
       <SavedTrack

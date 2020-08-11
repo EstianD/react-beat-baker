@@ -4,8 +4,6 @@ import useSound from "use-sound";
 import "./App.css";
 import instrumentData from "./instrumentData.json";
 
-// Import useInterval Hook
-
 import { Container, Row, Col, Modal } from "react-bootstrap";
 
 // Components
@@ -16,7 +14,7 @@ import PlayButton from "./Components/Header/PlayButton";
 import StopButton from "./Components/Header/StopButton";
 import SelectBPM from "./Components/Header/SelectBPM";
 import SelectBeatBlocks from "./Components/Header/SelectBeatBlocks";
-import VolumeSlider from "./Components/Header/VolumeSlider";
+
 import SavedLibrary from "./Components/Header/SavedLibrary";
 
 import acousticSound from "../src/Sounds/Acoustic/acoustic-complete.mp3";
@@ -24,6 +22,7 @@ import acousticSound from "../src/Sounds/Acoustic/acoustic-complete.mp3";
 function App() {
   // const beatBlocks = 8;
 
+  // Global states
   const [instruments, setInstruments] = useState([]);
   const [selectedInstrument, setselectedInstrument] = useState("");
   const [state, setState] = useState({});
@@ -56,9 +55,6 @@ function App() {
   const BPMms = 60000;
   let playingNote;
   const beatBlockOptions = ["8", "16"];
-
-  // Spring example
-  const styleProps = useSpring(timerStyle);
 
   const [acoustic, stopAcoustic] = useSound(acousticSound, {
     sprite: {
@@ -93,9 +89,6 @@ function App() {
 
   // UseEffect on state change of 'playing'
   useEffect(() => {
-    console.log(
-      "------------------------------------------------------------------------------------"
-    );
     let loop = 0;
     let indexSound;
     let noteObj = {};
@@ -104,24 +97,23 @@ function App() {
     playTrackLoop = null;
 
     if (playing) {
+      // Create interval for playing the track
       playTrackLoop = setInterval(() => {
-        console.log(playing);
+        // Create a note object to load the sound with
         noteObj = {};
         if (loop < state.beatblocks) {
           if (loop == 0) {
             for (let block = 1; block <= state.beatblocks; block++) {
               timeElement = document.getElementById(`beatblock-${block}`);
               if (timeElement) {
-                console.log(timeElement);
                 timeElement.classList.remove("played-time");
               }
             }
           }
 
+          // Loop through all sounds to get selected notes
           state.sounds.map((sound) => {
             indexSound = state.layers[sound][loop];
-
-            console.log("LOOP2: ", loop);
 
             if (indexSound) {
               noteObj = {
@@ -140,14 +132,13 @@ function App() {
               .classList.add("played-time");
           });
         }
-
+        // Go to next iteration
         loop++;
-
+        // If loop is on its last iteration, set it to 0 to start over
         if (loop === state.beatblocks) {
           loop = 0;
         }
-        // loop++;
-      }, BPMms / beatsPerMin);
+      }, BPMms / beatsPerMin); //Calculate interval time based on BPM
     }
     return () => {
       clearInterval(playTrackLoop);
@@ -156,27 +147,26 @@ function App() {
   }, [playing]);
 
   // Stop playing
-  const stop = () => {
-    clearInterval(playTrackLoop);
-  };
+  // const stop = () => {
+  //   clearInterval(playTrackLoop);
+  // };
 
+  // Set state for selected instrument on change
   const handleInstrumentChange = (e) => {
-    // setselectedInstrument(e.value);
-    console.log(e.value);
     setInstrumentInput(e.value);
   };
 
+  // Handle the changing/adding of instrument
   const handleInstrumentAdd = () => {
     setselectedInstrument(instrumentInput);
-    console.log("here:", selectedInstrument);
+    // Filter selected instrument
     const instrumentConfig = instrumentData.filter((name) => {
-      console.log(name.kit_name.includes(selectedInstrument));
       return name.kit_name.includes(instrumentInput);
-      // name.kit_name.includes(selectedInstrument);
     });
 
+    // Check if instrument selected
     if (instrumentConfig !== 0) {
-      // console.log("IF: ", instrumentConfig[0].sounds);
+      // Loop through sounds of selected instrument to create arrays for all sounds
       instrumentConfig[0].sounds.map((sound) => {
         instrumentConfig[0].layers[sound] = Array(beatBlocks).fill(0);
       });
@@ -184,9 +174,7 @@ function App() {
       instrumentConfig[0].beatblocks = beatBlocks;
     }
 
-    // console.log(beatBlocks);
-    // console.log(instrumentConfig);
-
+    // Set state for selected instrument
     setState(instrumentConfig[0]);
   };
 
@@ -203,18 +191,16 @@ function App() {
     if (e.target.value >= 60 || e.target.value <= 1000) {
       setBeatsPerMinute(e.target.value);
     }
-
-    console.log(e.target);
   };
 
   // Handle BeatBlock change
   const handleBeatBlockChange = (e) => {
-    console.log(e.value);
     setBeatBlocks(parseInt(e.value));
   };
 
   // Handle Play button clicked
   const playHandler = () => {
+    // Limit the bpm that can be selected
     if (beatsPerMin < 60) {
       setBeatsPerMinute(60);
     } else if (beatsPerMin > 1000) {
@@ -236,7 +222,6 @@ function App() {
   // SAVING TRACK FUNCTIONALITY
   // Handle input change on save input
   const handleSaveChange = (e) => {
-    console.log(e.target.value);
     setSaveInput(e.target.value);
 
     if (Object.keys(localStorage).includes(e.target.value)) {
@@ -250,12 +235,12 @@ function App() {
 
   // Handler for saving a track
   const handleSaveTrack = () => {
-    console.log("saving");
-
+    // Save track name to state
+    setState(state, (state.saved_name = saveInput));
+    // Store track in local storage
     localStorage.setItem(saveInput, JSON.stringify(state));
-
+    // Set local storage state
     setStorageState(storageState.concat(saveInput));
-    // console.log(Object.keys(localStorage));
   };
 
   // Handler for saving a track
@@ -288,8 +273,9 @@ function App() {
     if (trackName) {
       console.log(trackName);
 
-      // console.log("yes");
+      // Remove track from local storage
       localStorage.removeItem(trackName);
+      // Update local storage
       setStorageState(storageState.filter((track) => track !== trackName));
     }
   };
@@ -298,19 +284,11 @@ function App() {
   const loadSavedTrack = (track) => {
     let trackName = track.target.id;
     if (trackName) {
-      console.log(trackName);
       let savedState = JSON.parse(localStorage.getItem(trackName));
 
       setState((prevState) => savedState);
-
-      console.log(JSON.parse(localStorage.getItem(trackName)));
     }
   };
-
-  // const handleVolumeChange = (e) => {
-  //   console.log(e.target.value);
-  //   setTrackVolume(e.target.value);
-  // };
 
   // Render App title
   const renderTitle = () => {
@@ -323,6 +301,7 @@ function App() {
     }
   };
 
+  // Render Instrument layer
   const renderInstrumentLayer = () => {
     return (
       <InstrumentLayer
@@ -331,7 +310,6 @@ function App() {
         setState={setState}
         handleAddTrack={handleAddTrack}
         handleRemoveTrack={handleRemoveTrack}
-        styleProps={styleProps}
         playing={playing}
         handleSaveTrack={handleSaveTrack}
         handleCloseTrack={handleCloseTrack}
@@ -342,6 +320,7 @@ function App() {
     );
   };
 
+  // Render saved library
   const renderSavedLibrary = () => {
     if (!stateExist) {
       return (
@@ -355,6 +334,7 @@ function App() {
     }
   };
 
+  // Render play/stop button
   const renderPlayStop = () => {
     if (stateExist) {
       if (playing && beatsPerMin > 59 && beatsPerMin < 1001) {
@@ -365,6 +345,7 @@ function App() {
     }
   };
 
+  // Render BPM selector
   const renderBPM = () => {
     if (stateExist) {
       return (
@@ -377,12 +358,14 @@ function App() {
     }
   };
 
+  // Render add instrument button
   const renderAddInstrument = () => {
     if (instrumentInput && !stateExist) {
       return <AddInstrument handleInstrumentAdd={handleInstrumentAdd} />;
     }
   };
 
+  // Render select instrument dropdown
   const renderInstrumentSelect = () => {
     if (!stateExist) {
       return (
@@ -397,11 +380,11 @@ function App() {
     }
   };
 
+  // Render beat block select
   const renderBeatBlockSelect = () => {
     if (!stateExist) {
       return (
         <SelectBeatBlocks
-          playing={playing}
           beatBlocks={beatBlocks}
           handleBeatBlockChange={handleBeatBlockChange}
           beatBlockOptions={beatBlockOptions}
@@ -411,13 +394,13 @@ function App() {
     }
   };
 
-  const renderVolumeSlider = () => {
-    if (selectedInstrument && !playing) {
+  // Render saved named if track is saved
+  const renderSavedName = () => {
+    if (state.saved_name) {
       return (
-        <VolumeSlider
-          trackVolume={trackVolume}
-          setTrackVolume={setTrackVolume}
-        />
+        <div className="saved-track-title">
+          <h5>{state.saved_name}</h5>
+        </div>
       );
     }
   };
@@ -431,8 +414,8 @@ function App() {
         <Row>
           <Col xs={3}>{renderInstrumentSelect()}</Col>
           <Col xs={3}>{renderBeatBlockSelect()}</Col>
-          <Col xs={3}>{renderAddInstrument()}</Col>
-          <Col xs={2}>{renderSavedLibrary()}</Col>
+          <Col xs={2}>{renderAddInstrument()}</Col>
+          <Col xs={4}>{renderSavedLibrary()}</Col>
         </Row>
         <Row>
           <Col xs={2}></Col>
@@ -444,7 +427,7 @@ function App() {
           <Col xs={2} className="text-center">
             {renderPlayStop()}
           </Col>
-          <Col xs={5}></Col>
+          <Col xs={5}>{renderSavedName()}</Col>
         </Row>
 
         <Row>

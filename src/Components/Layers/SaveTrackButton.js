@@ -39,9 +39,7 @@ function SaveTrackButton({
               className="save-input"
               type="text"
               placeholder="Cool Beat"
-              // value={beatsPerMin}
               onChange={handleSaveChange}
-              // disabled={playing ? "disabled" : ""}
             />
           </Form.Group>
           <span className="save-input-error">{saveInputError}</span>

@@ -11,8 +11,8 @@ const SavedTrack = ({ track, deleteSavedTrack, loadSavedTrack }) => {
   return (
     <div>
       <Row>
-        <Col xs={8}>{track}</Col>
-        <Col xs={2}>
+        <Col xs={9}>{track}</Col>
+        <Col xs={1}>
           <Button
             size="sm"
             variant="outline-success"
@@ -22,7 +22,7 @@ const SavedTrack = ({ track, deleteSavedTrack, loadSavedTrack }) => {
             <AiOutlineReload />
           </Button>
         </Col>
-        <Col xs={2}>
+        <Col xs={1}>
           <Button
             size="sm"
             variant="outline-danger"
@@ -32,6 +32,7 @@ const SavedTrack = ({ track, deleteSavedTrack, loadSavedTrack }) => {
             <AiOutlineDelete />
           </Button>
         </Col>
+        <Col xs={1}></Col>
       </Row>
     </div>
   );

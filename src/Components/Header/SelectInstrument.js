@@ -9,8 +9,6 @@ function SelectInstrument({
   setInstruments,
   instruments,
 }) {
-  //   console.log(instrumentData);
-
   return (
     <div>
       <label>Instruments:</label>
