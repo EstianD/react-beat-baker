@@ -38,7 +38,7 @@ function CloseTrackButton({ handleCloseTrack }) {
           <Button variant="secondary" onClick={handleClose}>
             No
           </Button>
-          <Button variant="primary" onClick={handleCloseClick}>
+          <Button variant="danger" onClick={handleCloseClick}>
             Yes
           </Button>
         </Modal.Footer>

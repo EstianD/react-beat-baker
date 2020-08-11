@@ -48,10 +48,10 @@ function SaveTrackButton({
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="danger" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleSaveClick}>
+          <Button variant="success" onClick={handleSaveClick}>
             Save
           </Button>
         </Modal.Footer>

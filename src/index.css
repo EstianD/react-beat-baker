@@ -13,11 +13,12 @@ code {
 }
 
 .instrument-hover {
-  background-color: grey;
+  background-color: #dddddd;
 }
 
 .active {
-  background-color: green;
+  background-color: #e84745;
+  /* border: 1px solid #1b1b2f; */
 }
 
 .beat-block-header {
@@ -55,12 +56,6 @@ code {
   margin-left: 10px;
 }
 
-.trackRow {
-}
-
-.trackSoundCell {
-}
-
 .timing-bar {
   background-color: red;
   left: 0;
@@ -81,13 +76,37 @@ code {
 }
 
 .played-time {
-  background-color: orange;
+  background-color: #59a847;
 }
 
 .bpm-error {
-  color: red;
+  color: #e2183a;
 }
 
 .save-input-error {
-  color: red;
+  color: #e2183a;
+}
+
+.sound-icon {
+  color: #59a847;
+}
+
+.sound-icon:hover {
+  cursor: pointer;
+}
+
+.title-header {
+  text-align: center;
+  color: #e2183a;
+  font-weight: bold;
+}
+
+.title-row {
+  background-color: #1b1b2f;
+  border-bottom: 3px solid #e2183a;
+  margin-bottom: 10px;
+}
+
+.no-instrument {
+  color: #59a847;
 }

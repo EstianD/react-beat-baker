@@ -19,7 +19,7 @@ import SelectBeatBlocks from "./Components/Header/SelectBeatBlocks";
 import VolumeSlider from "./Components/Header/VolumeSlider";
 import SavedLibrary from "./Components/Header/SavedLibrary";
 
-import acousticSound from "../src/Sounds/Acoustic/acoustic_full.mp3";
+import acousticSound from "../src/Sounds/Acoustic/acoustic-complete.mp3";
 
 function App() {
   // const beatBlocks = 8;
@@ -31,7 +31,7 @@ function App() {
   const [instrumentInput, setInstrumentInput] = useState("");
 
   const [beatBlocks, setBeatBlocks] = useState(8);
-  const [beatsPerMin, setBeatsPerMinute] = useState(100);
+  const [beatsPerMin, setBeatsPerMinute] = useState(200);
   const [trackVolume, setTrackVolume] = useState(1);
 
   // LocalStorage state
@@ -62,15 +62,15 @@ function App() {
 
   const [acoustic, stopAcoustic] = useSound(acousticSound, {
     sprite: {
-      Closehat: [0, 400],
-      Snare: [400, 400],
-      Kick: [800, 580],
-      Flam: [1395, 605],
-      Rim: [2100, 390],
-      Splash: [2500, 500],
-      Tom1: [3100, 900],
-      Tom2: [4250, 1150],
-      Tom3: [5500, 1450],
+      Closehat: [0, 275],
+      Snare: [500, 290],
+      Kick: [800, 285],
+      Flam: [1200, 315],
+      Rim: [1600, 210],
+      Splash: [1900, 420],
+      Tom1: [2400, 430],
+      Tom2: [2900, 640],
+      Tom3: [3600, 330],
     },
     interupt: false,
     volume: trackVolume,
@@ -107,13 +107,9 @@ function App() {
       playTrackLoop = setInterval(() => {
         console.log(playing);
         noteObj = {};
-        if (loop < state.layers.closehat.length) {
+        if (loop < state.beatblocks) {
           if (loop == 0) {
-            for (
-              let block = 1;
-              block <= state.layers.closehat.length;
-              block++
-            ) {
+            for (let block = 1; block <= state.beatblocks; block++) {
               timeElement = document.getElementById(`beatblock-${block}`);
               if (timeElement) {
                 console.log(timeElement);
@@ -130,11 +126,14 @@ function App() {
             if (indexSound) {
               noteObj = {
                 id: indexSound,
-                volume: 0.25,
               };
 
-              // ADD PLAYING NOTE
-              acoustic(noteObj);
+              // Check which instrument is playing
+              switch (state.kit_name) {
+                case "Acoustic":
+                  // ADD PLAYING NOTE
+                  acoustic(noteObj);
+              }
             }
             document
               .getElementById(`beatblock-${loop + 1}`)
@@ -144,7 +143,7 @@ function App() {
 
         loop++;
 
-        if (loop === state.layers.closehat.length) {
+        if (loop === state.beatblocks) {
           loop = 0;
         }
         // loop++;
@@ -182,7 +181,7 @@ function App() {
         instrumentConfig[0].layers[sound] = Array(beatBlocks).fill(0);
       });
 
-      // instrumentConfig[0].beatblocks = beatBlocks;
+      instrumentConfig[0].beatblocks = beatBlocks;
     }
 
     // console.log(beatBlocks);
@@ -201,7 +200,7 @@ function App() {
   };
 
   const handleBPMChange = (e) => {
-    if (e.target.value >= 60 || e.target.value <= 250) {
+    if (e.target.value >= 60 || e.target.value <= 1000) {
       setBeatsPerMinute(e.target.value);
     }
 
@@ -218,8 +217,8 @@ function App() {
   const playHandler = () => {
     if (beatsPerMin < 60) {
       setBeatsPerMinute(60);
-    } else if (beatsPerMin > 300) {
-      setBeatsPerMinute(300);
+    } else if (beatsPerMin > 1000) {
+      setBeatsPerMinute(1000);
     }
     setPlaying(!playing);
   };
@@ -268,7 +267,19 @@ function App() {
 
   // Handle onClick for sound
   const handleSoundIcon = (e) => {
-    console.log(e.target);
+    let soundObj = {};
+    let soundIcon = e.target.id;
+
+    soundObj = {
+      id: soundIcon,
+    };
+
+    // Check which instrument is playing
+    switch (state.kit_name) {
+      case "Acoustic":
+        // ADD PLAYING NOTE
+        acoustic(soundObj);
+    }
   };
 
   // Delete saved track
@@ -300,6 +311,17 @@ function App() {
   //   console.log(e.target.value);
   //   setTrackVolume(e.target.value);
   // };
+
+  // Render App title
+  const renderTitle = () => {
+    if (!stateExist) {
+      return (
+        <div className="title-row">
+          <h3 className="title-header">Beat Baker</h3>
+        </div>
+      );
+    }
+  };
 
   const renderInstrumentLayer = () => {
     return (
@@ -335,7 +357,7 @@ function App() {
 
   const renderPlayStop = () => {
     if (stateExist) {
-      if (playing && beatsPerMin > 59 && beatsPerMin < 301) {
+      if (playing && beatsPerMin > 59 && beatsPerMin < 1001) {
         return <StopButton stopHandler={stopHandler} />;
       } else if (!playing) {
         return <PlayButton playHandler={playHandler} />;
@@ -403,6 +425,9 @@ function App() {
   return (
     <div>
       <Container fluid>
+        <Row>
+          <Col>{renderTitle()}</Col>
+        </Row>
         <Row>
           <Col xs={3}>{renderInstrumentSelect()}</Col>
           <Col xs={3}>{renderBeatBlockSelect()}</Col>

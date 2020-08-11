@@ -43,8 +43,8 @@ function InstrumentLayer({
 
   // On cell enter
   const onCellEnterHandler = (e) => {
-    console.log(e.target);
-    console.log(e.target.parentNode);
+    // console.log(e.target);
+    // console.log(e.target.parentNode);
     if (e.target.className !== "active") {
       e.target.classList.add("instrument-hover");
     }
@@ -89,7 +89,7 @@ function InstrumentLayer({
 
     // Check if State is not empty, then render track
     if (stateExist) {
-      for (let block = 1; block <= state.layers.closehat.length; block++) {
+      for (let block = 1; block <= state.beatblocks; block++) {
         headerArray.push(
           <Col className="headerCell" id={`beatblock-${block}`}>
             {block}
@@ -148,7 +148,11 @@ function InstrumentLayer({
         </div>
       );
     } else {
-      return <p className="text-center">(Please select a instrument to add)</p>;
+      return (
+        <p className="text-center no-instrument">
+          (Please select a instrument to add)
+        </p>
+      );
     }
   };
 

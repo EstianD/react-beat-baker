@@ -6,8 +6,8 @@ import "react-dropdown/style.css";
 
 function SelectBPM({ beatsPerMin, handleBPMChange, playing }) {
   const renderError = () => {
-    if (beatsPerMin < 60 || beatsPerMin > 300) {
-      return <p className="bpm-error">BPM needs to be between 60 - 300 BPM</p>;
+    if (beatsPerMin < 60 || beatsPerMin > 1000) {
+      return <p className="bpm-error">BPM needs to be between 60 - 1000 BPM</p>;
     }
   };
   return (

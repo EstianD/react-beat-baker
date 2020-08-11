@@ -7,7 +7,7 @@ function AddInstrument({ handleInstrumentAdd }) {
     <div>
       <Button
         className="btn_instrument-add"
-        variant="primary"
+        variant="success"
         onClick={(e) => handleInstrumentAdd(e)}
       >
         Add
