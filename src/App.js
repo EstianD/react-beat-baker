@@ -69,7 +69,6 @@ function App() {
       Tom3: [3600, 330],
     },
     interupt: false,
-    volume: trackVolume,
   });
 
   let stateExist = Object.keys(state).length !== 0;
@@ -151,10 +150,14 @@ function App() {
   //   clearInterval(playTrackLoop);
   // };
 
+  // useEffect(() => {
+
+  // }, [instrumentInput])
+
   // Set state for selected instrument on change
-  const handleInstrumentChange = (e) => {
-    setInstrumentInput(e.value);
-  };
+  // const handleInstrumentChange = (e) => {
+  //   setInstrumentInput(e.value);
+  // };
 
   // Handle the changing/adding of instrument
   const handleInstrumentAdd = () => {
@@ -163,17 +166,14 @@ function App() {
     const instrumentConfig = instrumentData.filter((name) => {
       return name.kit_name.includes(instrumentInput);
     });
-
     // Check if instrument selected
     if (instrumentConfig !== 0) {
       // Loop through sounds of selected instrument to create arrays for all sounds
       instrumentConfig[0].sounds.map((sound) => {
         instrumentConfig[0].layers[sound] = Array(beatBlocks).fill(0);
       });
-
       instrumentConfig[0].beatblocks = beatBlocks;
     }
-
     // Set state for selected instrument
     setState(instrumentConfig[0]);
   };
@@ -292,13 +292,11 @@ function App() {
 
   // Render App title
   const renderTitle = () => {
-    if (!stateExist) {
-      return (
-        <div className="title-row">
-          <h3 className="title-header">Beat Baker</h3>
-        </div>
-      );
-    }
+    return (
+      <div className="title-row">
+        <h3 className="title-header">Beat Baker</h3>
+      </div>
+    );
   };
 
   // Render Instrument layer
@@ -371,10 +369,12 @@ function App() {
       return (
         <SelectInstrument
           instrumentData={instrumentData}
-          handleInstrumentChange={handleInstrumentChange}
+          // handleInstrumentChange={handleInstrumentChange}
           selectedInstrument={selectedInstrument}
           instruments={instruments}
           setInstruments={setInstruments}
+          instrumentInput={instrumentInput}
+          setInstrumentInput={setInstrumentInput}
         />
       );
     }
