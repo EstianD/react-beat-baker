@@ -15,8 +15,22 @@
     "layers": {}
   },
   {
-    "kit_name": "Electro",
-    "sounds": ["closehat", "openhat", "clap", "snare", "tom", "kick"],
+    "kit_name": "Electronic",
+    "sounds": [
+      "Openhat",
+      "Snare",
+      "Kick",
+      "Tom1",
+      "Tom2",
+      "Floor",
+      "Floor2",
+      "Cowbell",
+      "Beam",
+      "Boom",
+      "Screach",
+      "Dead",
+      "Robot"
+    ],
     "layers": {}
   }
 ]

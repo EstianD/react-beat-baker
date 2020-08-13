@@ -18,6 +18,7 @@ import SelectBeatBlocks from "./Components/Header/SelectBeatBlocks";
 import SavedLibrary from "./Components/Header/SavedLibrary";
 
 import acousticSound from "../src/Sounds/Acoustic/acoustic-complete.mp3";
+import electronicSound from "../src/Sounds/Electro/electronic-complete.mp3";
 
 function App() {
   // const beatBlocks = 8;
@@ -67,6 +68,25 @@ function App() {
       Tom1: [2400, 430],
       Tom2: [2900, 640],
       Tom3: [3600, 330],
+    },
+    interupt: false,
+  });
+
+  const [electronic, stopElectronic] = useSound(electronicSound, {
+    sprite: {
+      Snare: [0, 415],
+      Kick: [450, 190],
+      Floor: [650, 675],
+      Openhat: [1350, 705],
+      Tom1: [2100, 200],
+      Beam: [2450, 815],
+      Boom: [3300, 285],
+      Screach: [3600, 310],
+      Tom2: [3950, 880],
+      Floor2: [4850, 610],
+      Dead: [5500, 165],
+      Cowbell: [5700, 360],
+      Robot: [6100, 1100],
     },
     interupt: false,
   });
@@ -124,6 +144,8 @@ function App() {
                 case "Acoustic":
                   // ADD PLAYING NOTE
                   acoustic(noteObj);
+                case "Electronic":
+                  electronic(noteObj);
               }
             }
             document
@@ -150,7 +172,37 @@ function App() {
   //   clearInterval(playTrackLoop);
   // };
 
-  // useEffect(() => {
+  // useEffect(() => {{
+  //   "kit_name": "Electronic",
+  //   "sounds": [
+  //     "Openhat",
+  //     "Snare",
+  //     "Kick",
+  //     "Tom1",
+  //     "Tom2",
+  //     "Floor",
+  //     "Floor2",
+  //     "Cowbell",
+  //     "Beam",
+  //     "Boom",
+  //     "Screach",
+  //     "Dead",
+  //     "Robot"
+  //   ],
+  //   "layers": {}
+  // },
+  // {
+  //   "kit_name": "Electro",
+  //   "sounds": [
+  //     "closehat",
+  //     "openhat",
+  //     "clap",
+  //     "snare",
+  //     "tom",
+  //     "kick"
+  //   ],
+  //   "layers": {}
+  // }
 
   // }, [instrumentInput])
 
