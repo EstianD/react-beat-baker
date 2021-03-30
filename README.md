@@ -2,6 +2,10 @@
 
 This is a App that enables you to build beats with different instruments. The App was written in React.
 
+## Demo
+
+[here](http://beat-baker.webdev-pg.com/)
+
 ## Purpose
 
 The purpose for building this app was to get a better understanding of how React functions and uses the DOM as a input.
