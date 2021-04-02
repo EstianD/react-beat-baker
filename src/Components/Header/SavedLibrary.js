@@ -23,7 +23,7 @@ const SavedLibrary = ({
   });
 
   return (
-    <div>
+    <div className="saved-container">
       <h5>Saved Tracks</h5>
       <hr />
       {savedTracks}

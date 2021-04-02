@@ -12,22 +12,18 @@ function SelectBPM({ beatsPerMin, handleBPMChange, playing }) {
   };
   return (
     <div>
-      <Row className="">
-        <Col xs={2}>
-          <p>BPM:</p>
-        </Col>
-        <Col xs={10}>
-          <Form.Group controlId="BPMSelector">
-            <Form.Control
-              className="bpm-container"
-              type="number"
-              value={beatsPerMin}
-              onChange={handleBPMChange}
-              disabled={playing ? "disabled" : ""}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
+      <div className="select-container">
+        <div className="bpm-title">BPM:</div>
+        <div className="bpm-input-container">
+          <input
+            className="bpm-input"
+            type="number"
+            value={beatsPerMin}
+            onChange={handleBPMChange}
+            disabled={playing ? "disabled" : ""}
+          />
+        </div>
+      </div>
 
       {renderError()}
     </div>

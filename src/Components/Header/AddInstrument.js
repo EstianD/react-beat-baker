@@ -5,13 +5,13 @@ import { Button } from "react-bootstrap";
 function AddInstrument({ handleInstrumentAdd }) {
   return (
     <div>
-      <Button
+      <br />
+      <button
         className="btn_instrument-add"
-        variant="success"
         onClick={(e) => handleInstrumentAdd(e)}
       >
         Add
-      </Button>{" "}
+      </button>
     </div>
   );
 }

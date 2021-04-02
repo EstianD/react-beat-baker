@@ -20,6 +20,9 @@ import SavedLibrary from "./Components/Header/SavedLibrary";
 import acousticSound from "../src/Sounds/Acoustic/acoustic-complete.mp3";
 import electronicSound from "../src/Sounds/Electro/electronic-complete.mp3";
 
+// Import logo
+import logo from "./Images/drum-logo.png";
+
 function App() {
   // const beatBlocks = 8;
 
@@ -47,14 +50,10 @@ function App() {
   const [styleState] = useState(timerStyle);
 
   // Modal states
-
-  // For spring
   const [toggle, setToggle] = useState(true);
 
-  let playTrackLoop;
-  let testLoop;
+  let playTrackLoop, testLoop, playingNote;
   const BPMms = 60000;
-  let playingNote;
   const beatBlockOptions = ["8", "16"];
 
   const [acoustic, stopAcoustic] = useSound(acousticSound, {
@@ -109,9 +108,8 @@ function App() {
   // UseEffect on state change of 'playing'
   useEffect(() => {
     let loop = 0;
-    let indexSound;
+    let indexSound, timeElement;
     let noteObj = {};
-    let timeElement;
 
     playTrackLoop = null;
 
@@ -166,50 +164,6 @@ function App() {
       setTimerStyle({});
     };
   }, [playing]);
-
-  // Stop playing
-  // const stop = () => {
-  //   clearInterval(playTrackLoop);
-  // };
-
-  // useEffect(() => {{
-  //   "kit_name": "Electronic",
-  //   "sounds": [
-  //     "Openhat",
-  //     "Snare",
-  //     "Kick",
-  //     "Tom1",
-  //     "Tom2",
-  //     "Floor",
-  //     "Floor2",
-  //     "Cowbell",
-  //     "Beam",
-  //     "Boom",
-  //     "Screach",
-  //     "Dead",
-  //     "Robot"
-  //   ],
-  //   "layers": {}
-  // },
-  // {
-  //   "kit_name": "Electro",
-  //   "sounds": [
-  //     "closehat",
-  //     "openhat",
-  //     "clap",
-  //     "snare",
-  //     "tom",
-  //     "kick"
-  //   ],
-  //   "layers": {}
-  // }
-
-  // }, [instrumentInput])
-
-  // Set state for selected instrument on change
-  // const handleInstrumentChange = (e) => {
-  //   setInstrumentInput(e.value);
-  // };
 
   // Handle the changing/adding of instrument
   const handleInstrumentAdd = () => {
@@ -316,6 +270,9 @@ function App() {
       case "Acoustic":
         // ADD PLAYING NOTE
         acoustic(soundObj);
+        break;
+      case "Electronic":
+        electronic(soundObj);
     }
   };
 
@@ -345,8 +302,12 @@ function App() {
   // Render App title
   const renderTitle = () => {
     return (
-      <div className="title-row">
-        <h3 className="title-header">Beat Baker</h3>
+      <div className="app-header">
+        <h3 className="app-title">
+          Beat
+          <img src={logo} alt="Logo" />
+          Baker
+        </h3>
       </div>
     );
   };
@@ -386,26 +347,22 @@ function App() {
 
   // Render play/stop button
   const renderPlayStop = () => {
-    if (stateExist) {
-      if (playing && beatsPerMin > 59 && beatsPerMin < 1001) {
-        return <StopButton stopHandler={stopHandler} />;
-      } else if (!playing) {
-        return <PlayButton playHandler={playHandler} />;
-      }
+    if (playing && beatsPerMin > 59 && beatsPerMin < 1001) {
+      return <StopButton stopHandler={stopHandler} />;
+    } else if (!playing) {
+      return <PlayButton playHandler={playHandler} />;
     }
   };
 
   // Render BPM selector
   const renderBPM = () => {
-    if (stateExist) {
-      return (
-        <SelectBPM
-          beatsPerMin={beatsPerMin}
-          handleBPMChange={handleBPMChange}
-          playing={playing}
-        />
-      );
-    }
+    return (
+      <SelectBPM
+        beatsPerMin={beatsPerMin}
+        handleBPMChange={handleBPMChange}
+        playing={playing}
+      />
+    );
   };
 
   // Render add instrument button
@@ -448,44 +405,43 @@ function App() {
 
   // Render saved named if track is saved
   const renderSavedName = () => {
-    if (state.saved_name) {
-      return (
-        <div className="saved-track-title">
-          <h5>{state.saved_name}</h5>
-        </div>
-      );
-    }
+    return (
+      <div className="saved-track-title">
+        <h5>{state.saved_name}</h5>
+      </div>
+    );
   };
 
   return (
     <div>
-      <Container fluid>
-        <Row>
-          <Col>{renderTitle()}</Col>
-        </Row>
-        <Row>
-          <Col xs={3}>{renderInstrumentSelect()}</Col>
-          <Col xs={3}>{renderBeatBlockSelect()}</Col>
-          <Col xs={2}>{renderAddInstrument()}</Col>
-          <Col xs={4}>{renderSavedLibrary()}</Col>
-        </Row>
-        <Row>
-          <Col xs={2}></Col>
-          <Col xs={10}></Col>
-        </Row>
-        <Row>
-          <Col xs={5}>{renderBPM()}</Col>
+      <div className="dashboard-container">
+        <div className="top-header">{renderTitle()}</div>
+        <div className="config-container">
+          <div className="config-option">{renderInstrumentSelect()}</div>
+          <div className="config-option">{renderBeatBlockSelect()}</div>
+          <div className="config-option">{renderAddInstrument()}</div>
+          <div className="config-option">{renderSavedLibrary()}</div>
+        </div>
 
-          <Col xs={2} className="text-center">
-            {renderPlayStop()}
-          </Col>
-          <Col xs={5}>{renderSavedName()}</Col>
-        </Row>
+        <div className="controls-container">
+          {stateExist && (
+            <>
+              <div className="bpm-control">{renderBPM()}</div>
+              <div className="play-control">{renderPlayStop()}</div>
+            </>
+          )}
+
+          <div className="playing-saved-control">{renderSavedName()}</div>
+
+          {/* {state.saved_name && (
+            <div className="playing-saved-control">{renderSavedName()}</div>
+          )} */}
+        </div>
 
         <Row>
           <Col>{renderInstrumentLayer()}</Col>
         </Row>
-      </Container>
+      </div>
     </div>
   );
 }

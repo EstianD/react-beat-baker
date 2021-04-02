@@ -15,7 +15,7 @@ function SelectInstrument({
   setInstrumentInput,
 }) {
   return (
-    <div>
+    <div className="instrument-select">
       <label>Instruments:</label>
       <Dropdown
         options={instruments}

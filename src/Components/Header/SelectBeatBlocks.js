@@ -11,7 +11,7 @@ function SelectBeatBlocks({
   let stateExist = Object.keys(state).length !== 0;
 
   return (
-    <div>
+    <div className="select-beat-blocks">
       <label>Beat Blocks:</label>
       <Dropdown
         options={beatBlockOptions}
