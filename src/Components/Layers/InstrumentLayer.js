@@ -90,32 +90,30 @@ function InstrumentLayer({
     if (stateExist) {
       for (let block = 1; block <= state.beatblocks; block++) {
         headerArray.push(
-          <Col className="headerCell" id={`beatblock-${block}`}>
+          <div className="header-cell" id={`beatblock-${block}`}>
             {block}
-          </Col>
+          </div>
         );
       }
       return (
         <div>
-          <Row className="trackHeader">
-            <Col className="track-config" xs={2}>
+          <div className="track-header">
+            <div className="track-config">
               <SaveTrackButton
                 handleSaveTrack={handleSaveTrack}
                 handleSaveChange={handleSaveChange}
                 saveInputError={saveInputError}
               />
               <CloseTrackButton handleCloseTrack={handleCloseTrack} />
-            </Col>
+            </div>
 
-            <Col xs={10}>
-              <Row className="timeHeader">{headerArray}</Row>
-            </Col>
-          </Row>
+            <div className="time-header">{headerArray}</div>
+          </div>
 
           {state.sounds.map((sound) => {
             return (
-              <Row className="trackRow">
-                <Col xs={2} id={sound}>
+              <div className="track-row">
+                <div className="sound-block" id={sound}>
                   {sound}
                   &nbsp;
                   <AiOutlineSound
@@ -123,7 +121,7 @@ function InstrumentLayer({
                     onClick={(sound) => handleSoundIcon(sound)}
                     id={sound}
                   />
-                </Col>
+                </div>
                 {state.layers[sound].map((i, index) => {
                   instrumentId = `${sound}-${index}`;
 
@@ -137,7 +135,7 @@ function InstrumentLayer({
                     />
                   );
                 })}
-              </Row>
+              </div>
             );
           })}
         </div>

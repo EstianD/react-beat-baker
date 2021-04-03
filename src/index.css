@@ -39,6 +39,14 @@ code {
   justify-content: space-evenly;
 }
 
+.instrument-container {
+  /* display: flex;
+  flex: no-wrap; */
+  justify-content: space-evenly;
+  padding: 0 4px;
+  /* width: 100%; */
+}
+
 .config-option {
   flex-grow: 1;
   flex-shrink: 1;
@@ -93,9 +101,17 @@ code {
 
 /* INSTRUMENT LAYER */
 
-.trackHeader {
+.track-header {
+  display: flex;
+  flex: no-wrap;
   border-bottom: 1px solid rgb(206, 197, 197);
   padding-bottom: 5px;
+}
+
+.time-header {
+  flex-grow: 8;
+  display: flex;
+  flex: no-wrap;
 }
 
 .timing-bar {
@@ -109,11 +125,12 @@ code {
   background-color: #59a847;
 }
 
-.sound-icon {
+.sound-block {
+  width: 15%;
   color: #59a847;
 }
 
-.sound-icon:hover {
+.sound-block:hover {
   cursor: pointer;
 }
 
@@ -172,6 +189,10 @@ code {
 
 /* Cell/Track styles */
 
+.track-row {
+  display: flex;
+}
+
 .instrument-hover {
   background-color: #dddddd;
 }
@@ -184,17 +205,19 @@ code {
   background-color: red;
 }
 
-.trackCell {
+.track-cell {
+  flex-grow: 1;
   padding: 10px;
   height: 40px;
   border-left: 1px solid rgb(206, 197, 197);
 }
 
-.trackCell:hover {
+.track-cell:hover {
   cursor: pointer;
 }
 
-.headerCell {
+.header-cell {
+  flex-grow: 1;
   border-left: 1px solid rgb(206, 197, 197);
   text-align: center;
 }
@@ -202,6 +225,10 @@ code {
 /* Config */
 
 .track-config {
+  /* flex-grow: 1; */
+  width: 15%;
+  /* display: flex; */
+  /* flex: no-wrap; */
   text-align: center;
 }
 

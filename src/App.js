@@ -437,10 +437,8 @@ function App() {
             <div className="playing-saved-control">{renderSavedName()}</div>
           )} */}
         </div>
-
-        <Row>
-          <Col>{renderInstrumentLayer()}</Col>
-        </Row>
+        <br />
+        <div className="instrument-container">{renderInstrumentLayer()}</div>
       </div>
     </div>
   );

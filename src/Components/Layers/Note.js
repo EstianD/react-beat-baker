@@ -11,17 +11,17 @@ const Note = ({
   const [classNames, setClassNames] = useState();
 
   useEffect(() => {
-    setClassNames(cellValue === 0 ? "trackCell" : "trackCell active");
+    setClassNames(cellValue === 0 ? "track-cell" : "track-cell active");
   }, []);
 
   return (
-    <Col
+    <div
       className={classNames}
       id={instrumentId}
       onMouseEnter={(e) => onCellEnterHandler(e)}
       onMouseLeave={(e) => onCellLeaveHandler(e)}
       onClick={(e) => onCellClickHandler(e)}
-    ></Col>
+    ></div>
   );
 };
 
