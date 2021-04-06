@@ -114,7 +114,7 @@ function InstrumentLayer({
             return (
               <div className="track-row">
                 <div className="sound-block" id={sound}>
-                  {sound}
+                  <span className="instrument-title">{sound}</span>
                   &nbsp;
                   <AiOutlineSound
                     className="sound-icon"

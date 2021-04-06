@@ -19,14 +19,9 @@ function SaveTrackButton({
   };
   return (
     <>
-      <Button
-        className="track-config-btn"
-        variant="outline-success"
-        size="sm"
-        onClick={handleOpen}
-      >
+      <button className="track-save-btn" onClick={handleOpen}>
         Save
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

@@ -16,14 +16,9 @@ function CloseTrackButton({ handleCloseTrack }) {
 
   return (
     <>
-      <Button
-        className="track-config-btn"
-        variant="outline-danger"
-        size="sm"
-        onClick={handleOpen}
-      >
+      <button className="track-close-btn" onClick={handleOpen}>
         Close
-      </Button>
+      </button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

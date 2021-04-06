@@ -17,12 +17,7 @@ const SavedTrack = ({ track, deleteSavedTrack, loadSavedTrack }) => {
   console.log(track);
   return (
     <div className="saved-item">
-      {/* container grid */}
-
-      {/* item */}
       <div className="saved-name">{track}</div>
-      {/* <Col xs={2}> */}
-      {/* button */}
       <button
         className="saved-track-load"
         id={track}
@@ -37,27 +32,6 @@ const SavedTrack = ({ track, deleteSavedTrack, loadSavedTrack }) => {
       >
         <AiOutlineDelete onClick={(e) => deleteSavedTrack(e)} id={track} />
       </button>
-      {/* <ButtonGroup size="sm"> */}
-      {/* <Button
-          size="sm"
-          variant="outline-success"
-          id={track}
-          onClick={(e) => loadSavedTrack(e)}
-        >
-          <AiOutlineReload id={track} onClick={(e) => loadSavedTrack(e)} />
-        </Button> */}
-      {/* <Button
-          size="sm"
-          variant="outline-danger"
-          onClick={(e) => deleteSavedTrack(e)}
-          id={track}
-        >
-          <AiOutlineDelete onClick={(e) => deleteSavedTrack(e)} id={track} />
-        </Button>
-      </ButtonGroup> */}
-      {/* </Col> */}
-      {/* item */}
-      <Col xs={1}></Col>
     </div>
   );
 };

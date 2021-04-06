@@ -127,11 +127,24 @@ code {
 
 .sound-block {
   width: 15%;
-  color: #59a847;
+  padding-left: 10px;
+  padding-top: 10px;
+  line-height: 20px;
+  /* justify-content: center;
+  -webkit-box-align: center; */
+}
+
+.instrument-title {
+  color: purple;
 }
 
 .sound-block:hover {
   cursor: pointer;
+}
+
+.sound-icon {
+  float: right;
+  margin-right: 10px;
 }
 
 .app-title {
@@ -154,13 +167,15 @@ code {
 }
 
 .saved-name {
+  width: 100%;
   flex-grow: 10;
 }
 
 .saved-track-load {
   flex-grow: 1;
-  background-color: #5976fe;
+  background-color: #06ecfe;
   border: 2px solid white;
+  width: 15%;
 }
 
 .saved-track-load:hover {
@@ -170,8 +185,9 @@ code {
 
 .saved-track-delete {
   flex-grow: 1;
-  background-color: rgb(204, 32, 32);
+  background-color: rgb(212, 71, 71);
   border: 2px solid white;
+  width: 15%;
 }
 
 .saved-track-delete:hover {
@@ -194,11 +210,13 @@ code {
 }
 
 .instrument-hover {
-  background-color: #dddddd;
+  background-color: rgb(90, 2, 90);
+  opacity: 0.3;
 }
 
 .active {
-  background-color: #e84745;
+  box-sizing: border-box;
+  background-color: #06ecfe;
 }
 
 .low-box {
@@ -206,10 +224,12 @@ code {
 }
 
 .track-cell {
+  box-sizing: border-box;
   flex-grow: 1;
-  padding: 10px;
+  /* padding: 10px; */
   height: 40px;
   border-left: 1px solid rgb(206, 197, 197);
+  border-bottom: 0.5px solid rgb(206, 197, 197, 0.5);
 }
 
 .track-cell:hover {
@@ -218,6 +238,7 @@ code {
 
 .header-cell {
   flex-grow: 1;
+  width: 100%;
   border-left: 1px solid rgb(206, 197, 197);
   text-align: center;
 }
@@ -227,13 +248,21 @@ code {
 .track-config {
   /* flex-grow: 1; */
   width: 15%;
-  /* display: flex; */
+  display: flex;
   /* flex: no-wrap; */
   text-align: center;
 }
 
-.track-config-btn {
+.track-save-btn {
   margin-left: 10px;
+  background-color: lime;
+  border: 1px solid grey;
+}
+
+.track-close-btn {
+  margin-left: 10px;
+  background-color: red;
+  border: 1px solid grey;
 }
 
 .btn_instrument-add {
