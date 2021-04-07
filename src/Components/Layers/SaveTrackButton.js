@@ -19,9 +19,7 @@ function SaveTrackButton({
   };
   return (
     <>
-      <button className="track-save-btn" onClick={handleOpen}>
-        Save
-      </button>
+      <button className="track-save-btn" onClick={handleOpen}></button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>

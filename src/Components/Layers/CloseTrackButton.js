@@ -16,9 +16,7 @@ function CloseTrackButton({ handleCloseTrack }) {
 
   return (
     <>
-      <button className="track-close-btn" onClick={handleOpen}>
-        Close
-      </button>
+      <button className="track-close-btn" onClick={handleOpen}></button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -30,12 +28,12 @@ function CloseTrackButton({ handleCloseTrack }) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <button className="modal-btn-no" onClick={handleClose}>
             No
-          </Button>
-          <Button variant="danger" onClick={handleCloseClick}>
+          </button>
+          <button className="modal-btn-yes" onClick={handleCloseClick}>
             Yes
-          </Button>
+          </button>
         </Modal.Footer>
       </Modal>
     </>

@@ -16,12 +16,12 @@ function SelectInstrument({
 }) {
   return (
     <div className="instrument-select">
-      <label>Instruments:</label>
+      <label className="instruments-label">Instruments:</label>
       <Dropdown
         options={instruments}
         onChange={(e) => setInstrumentInput(e.value)}
         value={instrumentInput}
-        placeholder="Select an option"
+        placeholder="Select"
       />
     </div>
   );

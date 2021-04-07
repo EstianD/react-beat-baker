@@ -113,14 +113,14 @@ function InstrumentLayer({
           {state.sounds.map((sound) => {
             return (
               <div className="track-row">
-                <div className="sound-block" id={sound}>
+                <div
+                  className="sound-block"
+                  id={sound}
+                  onClick={(sound) => handleSoundIcon(sound)}
+                >
                   <span className="instrument-title">{sound}</span>
                   &nbsp;
-                  <AiOutlineSound
-                    className="sound-icon"
-                    onClick={(sound) => handleSoundIcon(sound)}
-                    id={sound}
-                  />
+                  <AiOutlineSound className="sound-icon" id={sound} />
                 </div>
                 {state.layers[sound].map((i, index) => {
                   instrumentId = `${sound}-${index}`;

@@ -12,7 +12,7 @@ function SelectBeatBlocks({
 
   return (
     <div className="select-beat-blocks">
-      <label>Beat Blocks:</label>
+      <label className="beat-blocks-label">Beat Blocks:</label>
       <Dropdown
         options={beatBlockOptions}
         onChange={(e) => handleBeatBlockChange(e)}

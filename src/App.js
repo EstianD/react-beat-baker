@@ -406,8 +406,8 @@ function App() {
   // Render saved named if track is saved
   const renderSavedName = () => {
     return (
-      <div className="saved-track-title">
-        <h5>{state.saved_name}</h5>
+      <div>
+        <span className="saved-track-title">{state.saved_name}</span>
       </div>
     );
   };
@@ -417,10 +417,12 @@ function App() {
       <div className="dashboard-container">
         <div className="top-header">{renderTitle()}</div>
         <div className="config-container">
-          <div className="config-option">{renderInstrumentSelect()}</div>
-          <div className="config-option">{renderBeatBlockSelect()}</div>
-          <div className="config-option">{renderAddInstrument()}</div>
-          <div className="config-option">{renderSavedLibrary()}</div>
+          <div className="config-instrument-select">
+            {renderInstrumentSelect()}
+          </div>
+          <div className="config-block-select">{renderBeatBlockSelect()}</div>
+          <div className="config-instrument-add">{renderAddInstrument()}</div>
+          <div className="config-saved-library">{renderSavedLibrary()}</div>
         </div>
 
         <div className="controls-container">

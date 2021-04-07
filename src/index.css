@@ -47,8 +47,28 @@ code {
   /* width: 100%; */
 }
 
-.config-option {
+/* .config-option {
   flex-grow: 1;
+} */
+
+.config-instrument-select {
+  flex-grow: 2;
+  flex: 25%;
+}
+
+.config-block-select {
+  flex-grow: 2;
+  flex: 25%;
+}
+
+.config-instrument-add {
+  flex-grow: 1;
+  flex: 25%;
+}
+
+.config-saved-library {
+  flex-grow: 2;
+  flex: 25%;
   flex-shrink: 1;
 }
 
@@ -75,7 +95,7 @@ code {
 
 .play-control {
   flex-grow: 1;
-  /* text-align: center; */
+  text-align: center;
 }
 
 .playing-saved-control {
@@ -84,6 +104,7 @@ code {
 
 .play-stop-btn {
   width: 15%;
+  justify-content: center;
 }
 
 .play-stop-btn:hover {
@@ -114,15 +135,15 @@ code {
   flex: no-wrap;
 }
 
-.timing-bar {
+/* .timing-bar {
   background-color: red;
   left: 0;
   position: absolute;
   width: 0;
-}
+} */
 
 .played-time {
-  background-color: #59a847;
+  background-color: rgba(127, 241, 112, 0.85);
 }
 
 .sound-block {
@@ -130,12 +151,14 @@ code {
   padding-left: 10px;
   padding-top: 10px;
   line-height: 20px;
+  min-width: 100px;
   /* justify-content: center;
   -webkit-box-align: center; */
 }
 
 .instrument-title {
-  color: purple;
+  color: rgb(212, 71, 71);
+  font-family: bold;
 }
 
 .sound-block:hover {
@@ -149,15 +172,15 @@ code {
 
 .app-title {
   text-align: center;
-  color: lime;
+  color: rgb(212, 71, 71);
   font-weight: bold;
 }
 
-.title-row {
+/* .title-row {
   background-color: #1b1b2f;
-  border-bottom: 3px solid #e2183a;
+  border-bottom: 3px solid rgb(212, 71, 71);
   margin-bottom: 10px;
-}
+} */
 
 /* Saved tracks section */
 
@@ -173,14 +196,14 @@ code {
 
 .saved-track-load {
   flex-grow: 1;
-  background-color: #06ecfe;
+  background-color: #4dadfe;
   border: 2px solid white;
   width: 15%;
 }
 
 .saved-track-load:hover {
   background-color: white;
-  border: 2px solid #5976fe;
+  border: 2px solid #4dadfe;
 }
 
 .saved-track-delete {
@@ -192,7 +215,7 @@ code {
 
 .saved-track-delete:hover {
   background-color: white;
-  border: 2px solid rgb(204, 32, 32);
+  border: 2px solid rgb(212, 71, 71);
 }
 
 .saved-track-title {
@@ -200,7 +223,7 @@ code {
 }
 
 .no-instrument {
-  color: #59a847;
+  color: #4dadfe;
 }
 
 /* Cell/Track styles */
@@ -210,18 +233,18 @@ code {
 }
 
 .instrument-hover {
-  background-color: rgb(90, 2, 90);
+  background-color: rgb(212, 71, 71);
   opacity: 0.3;
 }
 
 .active {
   box-sizing: border-box;
-  background-color: #06ecfe;
+  background-color: #4dadfe;
 }
 
-.low-box {
+/* .low-box {
   background-color: red;
-}
+} */
 
 .track-cell {
   box-sizing: border-box;
@@ -241,6 +264,7 @@ code {
   width: 100%;
   border-left: 1px solid rgb(206, 197, 197);
   text-align: center;
+  color: #4dadfe;
 }
 
 /* Config */
@@ -251,28 +275,58 @@ code {
   display: flex;
   /* flex: no-wrap; */
   text-align: center;
+  min-width: 100px;
+}
+
+.track-save-btn:before {
+  content: "Save";
+}
+
+.track-close-btn:before {
+  content: "Close";
 }
 
 .track-save-btn {
   margin-left: 10px;
-  background-color: lime;
-  border: 1px solid grey;
+  background-color: #4dadfe;
+  border: 1px solid white;
+  color: white;
+}
+
+.track-save-btn:hover {
+  background-color: white;
+  border: 1px solid #4dadfe;
+  color: #4dadfe;
 }
 
 .track-close-btn {
+  content: "Close";
   margin-left: 10px;
-  background-color: red;
-  border: 1px solid grey;
+  background-color: rgb(212, 71, 71);
+  border: 1px solid white;
+  color: white;
+}
+
+.track-close-btn:hover {
+  background-color: white;
+  border: 1px solid rgb(212, 71, 71);
+  color: rgb(212, 71, 71);
 }
 
 .btn_instrument-add {
   margin-top: 10px;
   height: 40px;
-  background-color: lime;
+  background-color: #4dadfe;
   width: 60%;
   min-width: 40%;
-  border: 1px solid blue;
-  color: blue;
+  border: 1px solid white;
+  color: white;
+}
+
+.btn_instrument-add:hover {
+  background-color: white;
+  border: 1px solid #4dadfe;
+  color: #4dadfe;
 }
 
 .bpm-container {
@@ -280,9 +334,69 @@ code {
 }
 
 .bpm-error {
-  color: #e2183a;
+  color: rgb(212, 71, 71);
 }
 
 .save-input-error {
-  color: #e2183a;
+  color: rgb(212, 71, 71);
+}
+
+/* Modal */
+.modal-btn-no {
+  background-color: rgb(212, 71, 71);
+  color: white;
+  border: 1px solid white;
+}
+
+.modal-btn-no:hover {
+  background-color: white;
+  color: rgb(212, 71, 71);
+  border: 1px solid rgb(212, 71, 71);
+}
+
+.modal-btn-yes {
+  background-color: #4dadfe;
+  color: white;
+  border: 1px solid white;
+}
+
+.modal-btn-yes:hover {
+  background-color: white;
+  color: #4dadfe;
+  border: 1px solid #4dadfe;
+}
+
+/* Viewport css */
+@media screen and (max-width: 1050px) {
+  .track-save-btn:before {
+    content: "S";
+  }
+  .track-close-btn:before {
+    content: "X";
+  }
+  .saved-name {
+    font-size: 80%;
+  }
+  .instruments-label {
+    font-size: 80%;
+  }
+  .beat-blocks-label {
+    font-size: 80%;
+  }
+  .saved-track-title {
+    font-size: 80%;
+  }
+  .bpm-title {
+    font-size: 80%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .header-cell {
+    font-size: 75%;
+  }
+
+  .play-stop-btn {
+    width: 45%;
+  }
 }
