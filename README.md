@@ -1,6 +1,6 @@
 ## Description
 
-This is a App that enables you to build beats with different instruments. The App was written in React.
+This is a App that enables you to build beats with different drum kits. The App was written in React.
 
 ## Demo
 
