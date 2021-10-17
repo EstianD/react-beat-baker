@@ -4,7 +4,7 @@ This is a App that enables you to build beats with different drum kits. The App 
 
 ## Demo
 
-[here](http://beat-baker.webdev-pg.com/)
+[here](https://beat-baker.herokuapp.com/)
 
 ## Purpose
 
